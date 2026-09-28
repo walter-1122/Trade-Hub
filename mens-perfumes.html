@@ -3,9 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Men's Perfumes | Trade Hub</title>
+
+  <link rel="icon" type="image/png" href="favicon.png">
+
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
     body {
       font-family: Arial, Helvetica, sans-serif;
@@ -23,20 +31,45 @@
       justify-content: space-between;
     }
 
-    .logo { font-size: 25px; font-weight: 700; }
-    .logo span { color: #4da3ff; }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font-size: 25px;
+      font-weight: 700;
+    }
 
-    a { color: #4da3ff; text-decoration: none; }
+    .logo img {
+      width: 40px;
+      height: 40px;
+      object-fit: contain;
+    }
+
+    .logo span {
+      color: #4da3ff;
+    }
+
+    a {
+      color: #4da3ff;
+      text-decoration: none;
+    }
+
     .back {
       color: white;
       border: 1px solid #315779;
       border-radius: 8px;
       padding: 10px 16px;
       font-size: 14px;
+      transition: .25s;
+    }
+
+    .back:hover {
+      border-color: #4da3ff;
+      color: #4da3ff;
     }
 
     main {
-      max-width: 1100px;
+      max-width: 1200px;
       margin: auto;
       padding: 65px 25px 90px;
     }
@@ -49,21 +82,88 @@
       margin-bottom: 14px;
     }
 
-    h1 { font-size: 42px; margin-bottom: 14px; }
+    h1 {
+      font-size: 42px;
+      margin-bottom: 14px;
+    }
+
     .intro {
       color: #aebdcd;
       line-height: 1.7;
       max-width: 650px;
-      margin-bottom: 35px;
+      margin-bottom: 40px;
     }
 
-    .notice {
+    /* PRODUCTS */
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .product-card {
+      background: #0b1d31;
+      border: 1px solid #183b5d;
+      border-radius: 15px;
+      overflow: hidden;
+      transition: .3s ease;
+    }
+
+    .product-card:hover {
+      transform: translateY(-6px);
+      border-color: #4da3ff;
+      box-shadow: 0 15px 40px rgba(0,0,0,.25);
+    }
+
+    .product-image {
+      width: 100%;
+      height: 270px;
+      object-fit: cover;
+      display: block;
+      background: #09182a;
+    }
+
+    .product-content {
+      padding: 20px;
+    }
+
+    .category {
+      color: #4da3ff;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-size: 11px;
+      font-weight: 700;
+      margin-bottom: 9px;
+      display: block;
+    }
+
+    .product-title {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    .product-description {
+      color: #aebdcd;
+      line-height: 1.6;
+      font-size: 14px;
+    }
+
+    .loading,
+    .empty,
+    .error {
       background: #10243a;
       border: 1px solid rgba(77,163,255,.25);
       border-radius: 12px;
-      padding: 22px;
+      padding: 25px;
       color: #c5d2df;
-      line-height: 1.6;
+      text-align: center;
+      grid-column: 1 / -1;
+    }
+
+    .error {
+      color: #ff9ca6;
+      border-color: rgba(255,80,100,.3);
     }
 
     footer {
@@ -75,34 +175,254 @@
       font-size: 13px;
     }
 
+    @media (max-width: 900px) {
+      .products-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
     @media (max-width: 600px) {
-      header { padding: 17px 5%; }
-      .logo { font-size: 21px; }
-      .back { padding: 8px 11px; font-size: 12px; }
-      h1 { font-size: 34px; }
-      main { padding-top: 48px; }
+      header {
+        padding: 17px 5%;
+      }
+
+      .logo {
+        font-size: 20px;
+      }
+
+      .logo img {
+        width: 34px;
+        height: 34px;
+      }
+
+      .back {
+        padding: 8px 11px;
+        font-size: 12px;
+      }
+
+      h1 {
+        font-size: 34px;
+      }
+
+      main {
+        padding-top: 48px;
+      }
+
+      .products-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .product-image {
+        height: 300px;
+      }
     }
   </style>
 </head>
+
 <body>
+
   <header>
-    <div class="logo">Trade<span>Hub</span></div>
-    <a class="back" href="perfumes.html">← Back to Perfumes</a>
+
+    <div class="logo">
+
+      <img src="tradehub-logo.png" alt="Trade-Hub Logo">
+
+      <div>
+        Trade<span>Hub</span>
+      </div>
+
+    </div>
+
+    <a class="back" href="perfumes.html">
+      ← Back to Perfumes
+    </a>
+
   </header>
 
+
   <main>
-    <div class="eyebrow">Wholesale Catalogue</div>
-    <h1>Men's Perfumes</h1>
+
+    <div class="eyebrow">
+      Wholesale Catalogue
+    </div>
+
+    <h1>
+      Men's Perfumes
+    </h1>
+
     <p class="intro">
       Browse our men's fragrance collection for wholesale buyers.
+      New products published through our admin dashboard will appear here automatically.
     </p>
 
-    <div class="notice">
-      Men's perfume listings will appear here. Add your product names,
-      photos, and wholesale details to display the full collection.
+
+    <div id="productsGrid" class="products-grid">
+
+      <div class="loading">
+        Loading men's perfumes...
+      </div>
+
     </div>
+
   </main>
 
-  <footer>© 2026 Trade Hub. Wholesale Catalogue.</footer>
+
+  <footer>
+    © 2026 Trade Hub. Wholesale Catalogue.
+  </footer>
+
+
+  <!-- SUPABASE -->
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+
+    /* ==========================================
+       SUPABASE CONNECTION
+    ========================================== */
+
+    const SUPABASE_URL =
+      "https://cgclqejzzlrxkuksqgav.supabase.co";
+
+    const SUPABASE_KEY =
+      "sb_publishable_BI34HY1C7-HR9ZzDrXuabQ_QtTRwbBx";
+
+    const supabaseClient =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      );
+
+
+    /* ==========================================
+       LOAD MEN'S PERFUMES
+    ========================================== */
+
+    async function loadMensPerfumes() {
+
+      const productsGrid =
+        document.getElementById("productsGrid");
+
+
+      const {
+        data,
+        error
+      } = await supabaseClient
+        .from("posts")
+        .select("*")
+        .eq("category", "Men's Perfumes")
+        .order(
+          "created_at",
+          {
+            ascending: false
+          }
+        );
+
+
+      /* ERROR */
+
+      if (error) {
+
+        console.error(error);
+
+        productsGrid.innerHTML = `
+          <div class="error">
+            Unable to load products right now.
+          </div>
+        `;
+
+        return;
+      }
+
+
+      /* NO PRODUCTS */
+
+      if (!data || data.length === 0) {
+
+        productsGrid.innerHTML = `
+          <div class="empty">
+            No men's perfumes have been added yet.
+          </div>
+        `;
+
+        return;
+      }
+
+
+      /* CLEAR LOADING */
+
+      productsGrid.innerHTML = "";
+
+
+      /* CREATE PRODUCT CARDS */
+
+      data.forEach(function(post) {
+
+        const card =
+          document.createElement("article");
+
+        card.className =
+          "product-card";
+
+
+        card.innerHTML = `
+
+          <img
+            class="product-image"
+            src="${escapeHTML(post.image_url || "")}"
+            alt="${escapeHTML(post.title || "Men's Perfume")}"
+          >
+
+          <div class="product-content">
+
+            <span class="category">
+              ${escapeHTML(post.category || "Men's Perfumes")}
+            </span>
+
+            <h2 class="product-title">
+              ${escapeHTML(post.title || "Untitled Product")}
+            </h2>
+
+            <p class="product-description">
+              ${escapeHTML(post.description || "")}
+            </p>
+
+          </div>
+
+        `;
+
+
+        productsGrid.appendChild(card);
+
+      });
+
+    }
+
+
+    /* ==========================================
+       SECURITY
+    ========================================== */
+
+    function escapeHTML(value) {
+
+      return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+    }
+
+
+    /* ==========================================
+       START
+    ========================================== */
+
+    loadMensPerfumes();
+
+  </script>
+
 </body>
 </html>
