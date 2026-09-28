@@ -482,16 +482,54 @@ section{
 .why-item{
     background:#08192b;
     padding:30px 24px;
+    animation:whyFloat 4s ease-in-out infinite alternate;
+    transition:transform .35s ease, box-shadow .35s ease;
+}
+
+.why-item:nth-child(2){
+    animation-delay:.25s;
+}
+
+.why-item:nth-child(3){
+    animation-delay:.5s;
+}
+
+.why-item:nth-child(4){
+    animation-delay:.75s;
+}
+
+.why-item:hover{
+    transform:translateY(-6px);
+    box-shadow:0 14px 30px rgba(0,135,255,.12);
 }
 
 .why-icon{
     font-size:32px;
     color:#0787ff;
+    animation:iconFloat 2.2s ease-in-out infinite alternate;
 }
 
 .why-item p{
     color:#a9b8c9;
     font-size:14px;
+}
+
+@keyframes whyFloat{
+    0%{
+        transform:translateX(-18px);
+    }
+    100%{
+        transform:translateX(18px);
+    }
+}
+
+@keyframes iconFloat{
+    0%{
+        transform:translateY(-3px);
+    }
+    100%{
+        transform:translateY(3px);
+    }
 }
 
 
