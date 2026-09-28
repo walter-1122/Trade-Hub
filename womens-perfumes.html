@@ -3,14 +3,195 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Women's Perfumes | Trade Hub</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #07111f;
+            color: #ffffff;
+            min-height: 100vh;
+        }
+
+        /* HEADER */
+
+        header {
+            width: 100%;
+            background: #09182a;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            padding: 20px 7%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: #ffffff;
+        }
+
+        .logo span {
+            color: #4da3ff;
+        }
+
+        .back-btn {
+            color: #ffffff;
+            text-decoration: none;
+            border: 1px solid #315779;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: #12304d;
+            border-color: #4da3ff;
+        }
+
+        /* MAIN */
+
+        main {
+            max-width: 1050px;
+            margin: 0 auto;
+            padding: 65px 25px 90px;
+        }
+
+        .small-title {
+            color: #4da3ff;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-size: 13px;
+            margin-bottom: 16px;
+        }
+
+        h1 {
+            font-size: 44px;
+            margin-bottom: 18px;
+        }
+
+        .intro {
+            color: #b8c6d5;
+            font-size: 16px;
+            line-height: 1.7;
+            margin-bottom: 38px;
+        }
+
+        /* PRODUCT AREA */
+
+        .products-placeholder {
+            background: #10243a;
+            border: 1px solid #315779;
+            border-radius: 14px;
+            padding: 28px 22px;
+            color: #d9e5f0;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        /* FOOTER */
+
+        footer {
+            background: #050d17;
+            border-top: 1px solid rgba(255,255,255,0.07);
+            text-align: center;
+            padding: 25px 20px;
+            color: #8191a2;
+            font-size: 13px;
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 700px) {
+
+            header {
+                padding: 18px 5%;
+            }
+
+            .logo {
+                font-size: 22px;
+            }
+
+            .back-btn {
+                padding: 8px 13px;
+                font-size: 13px;
+            }
+
+            main {
+                padding: 50px 20px 70px;
+            }
+
+            h1 {
+                font-size: 35px;
+            }
+
+            .intro {
+                font-size: 14px;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-    <h1>Women's Perfumes</h1>
+    <!-- HEADER -->
 
-    <p>Women's fragrance collection coming soon.</p>
+    <header>
+
+        <div class="logo">
+            Trade<span>Hub</span>
+        </div>
+
+        <a href="perfumes.html" class="back-btn">
+            ← Back to Perfumes
+        </a>
+
+    </header>
+
+
+    <!-- MAIN CONTENT -->
+
+    <main>
+
+        <div class="small-title">
+            Wholesale Catalogue
+        </div>
+
+        <h1>
+            Women's Perfumes
+        </h1>
+
+        <p class="intro">
+            Browse our women's fragrance collection for wholesale buyers.
+        </p>
+
+
+        <!-- PRODUCTS WILL BE ADDED HERE LATER -->
+
+        <div class="products-placeholder">
+            Women's perfume listings will appear here. Add your product
+            names, photos, and wholesale details to display the full collection.
+        </div>
+
+    </main>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        © 2026 Trade Hub. Wholesale Catalogue.
+
+    </footer>
 
 </body>
 </html>
