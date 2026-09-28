@@ -862,7 +862,7 @@ Get in Touch →
 
 <div class="container">
 
-<div class="hero-content">
+<div class="hero-content reveal">
 
 <div class="eyebrow">
 Dubai Based Wholesale Trading Company
@@ -955,7 +955,7 @@ Browse our available product categories and contact us for wholesale requirement
 <div class="products-grid">
 
 
-<div class="product-card" 
+<div class="product-card reveal reveal-scale reveal-delay-1" 
 onclick="window.location.href='perfumes.html'">
 
 <img
@@ -979,7 +979,7 @@ Men's & Women's fragrances
 
 
 
-<div class="product-card"
+<div class="product-card reveal reveal-scale reveal-delay-2"
 onclick="openCategory('skincare')">
 
 <img
@@ -1003,7 +1003,7 @@ Skincare & personal care products
 
 
 
-<div class="product-card"
+<div class="product-card reveal reveal-scale reveal-delay-3"
 onclick="openCategory('soaps')">
 
 <img
@@ -1027,7 +1027,7 @@ Bath and beauty soaps
 
 
 
-<div class="product-card"
+<div class="product-card reveal reveal-scale reveal-delay-4"
 onclick="openCategory('socks')">
 
 <img
@@ -1051,7 +1051,7 @@ Wholesale apparel essentials
 
 
 
-<div class="product-card"
+<div class="product-card reveal reveal-scale reveal-delay-4"
 onclick="openCategory('personal-care')">
 
 <img
@@ -1192,7 +1192,7 @@ Contact for Deal →
 <div class="about-img"></div>
 
 
-<div class="about-copy">
+<div class="about-copy reveal reveal-right">
 
 <div class="eyebrow">
 About Trade.Hub
@@ -1364,7 +1364,7 @@ and shipping requirements.
 
 
 
-<div class="world-boxes">
+<div class="world-boxes reveal">
 
 
 <div class="world-box">
@@ -1418,7 +1418,7 @@ Contact
 <div class="container contact-wrap">
 
 
-<div class="contact-card">
+<div class="contact-card reveal reveal-left">
 
 
 <div class="eyebrow">
@@ -1468,7 +1468,7 @@ WhatsApp Us →
 
 
 
-<div class="form-card">
+<div class="form-card reveal reveal-right">
 
 
 <form id="quoteForm">
@@ -2075,9 +2075,39 @@ document
 });
 
 
+/* =========================
+   SCROLL REVEAL
+   ========================= */
+
+const revealItems = document.querySelectorAll(".reveal");
+
+if ("IntersectionObserver" in window) {
+    const revealObserver = new IntersectionObserver(function(entries, observer){
+        entries.forEach(function(entry){
+            if(entry.isIntersecting){
+                entry.target.classList.add("is-visible");
+                observer.unobserve(entry.target);
+            }
+        });
+    }, {
+        threshold: 0.14,
+        rootMargin: "0px 0px -40px 0px"
+    });
+
+    revealItems.forEach(function(item){
+        revealObserver.observe(item);
+    });
+} else {
+    revealItems.forEach(function(item){
+        item.classList.add("is-visible");
+    });
+}
+
+
 </script>
 
 
 </body>
 
 </html>
+
