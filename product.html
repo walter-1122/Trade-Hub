@@ -214,15 +214,14 @@ ${escapeHTML(data.minimum_quantity || "Contact")}
 </p>
 
 
-<button>
+<button onclick="showOrderForm()">
 Add To Cart
 </button>
 
 
-<button>
+<button onclick="showOrderForm()">
 Order Now
 </button>
-
 
 
 </div>
@@ -231,6 +230,31 @@ Order Now
 </div>
 
 `;
+  <div id="orderForm" style="display:none; margin-top:30px;">
+
+<h2>Place Your Order</h2>
+
+<input id="customerName" placeholder="Full Name">
+
+<input id="country" placeholder="Country">
+
+<input id="city" placeholder="City">
+
+<input id="whatsapp" placeholder="WhatsApp Number">
+
+<input id="email" placeholder="Email">
+
+<textarea id="address" placeholder="Full Address"></textarea>
+
+<input id="quantity" type="number" placeholder="Quantity">
+
+<textarea id="message" placeholder="Message"></textarea>
+
+<button onclick="placeOrder()">
+Confirm Order
+</button>
+
+</div>
 
 
 }
