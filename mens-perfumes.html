@@ -366,31 +366,45 @@
           "product-card";
 
 
-        card.innerHTML = `
+       card.innerHTML = `
 
-          <img
-            class="product-image"
-            src="${escapeHTML(post.image_url || "")}"
-            alt="${escapeHTML(post.title || "Men's Perfume")}"
-          >
+  <img
+    class="product-image"
+    src="${escapeHTML(post.image_url || "")}"
+    alt="${escapeHTML(post.title || "Men's Perfume")}"
+  >
 
-          <div class="product-content">
+  <div class="product-content">
 
-            <span class="category">
-              ${escapeHTML(post.category || "Men's Perfumes")}
-            </span>
+    <span class="category">
+      ${escapeHTML(post.category || "Men's Perfumes")}
+    </span>
 
-            <h2 class="product-title">
-              ${escapeHTML(post.title || "Untitled Product")}
-            </h2>
+    <h2 class="product-title">
+      ${escapeHTML(post.title || "Untitled Product")}
+    </h2>
 
-            <p class="product-description">
-              ${escapeHTML(post.description || "")}
-            </p>
+    <p class="product-description">
+      ${escapeHTML(post.description || "")}
+    </p>
 
-          </div>
+    <p>
+      <strong>Price:</strong>
+      ${escapeHTML(post.price_per_piece || "Contact for price")}
+    </p>
 
-        `;
+    <p>
+      <strong>Minimum Order:</strong>
+      ${escapeHTML(post.minimum_quantity || "Contact for MOQ")}
+    </p>
+
+    <button class="order-btn">
+      Order Now
+    </button>
+
+  </div>
+
+`;
 
 
         productsGrid.appendChild(card);
