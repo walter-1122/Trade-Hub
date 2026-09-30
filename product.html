@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Product | Trade Hub</title>
+
+<style>
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  font-family:Arial, Helvetica, sans-serif;
+  background:#07111f;
+  color:white;
+}
+
+.container{
+  max-width:1100px;
+  margin:auto;
+  padding:50px 25px;
+}
+
+.product-box{
+  background:#10243a;
+  border-radius:15px;
+  padding:30px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:35px;
+}
+
+.product-image{
+  width:100%;
+  border-radius:12px;
+}
+
+.category{
+  color:#4da3ff;
+  font-size:14px;
+}
+
+h1{
+  margin:15px 0;
+  font-size:40px;
+}
+
+p{
+  color:#c5d2df;
+  line-height:1.7;
+  margin:12px 0;
+}
+
+button{
+  margin-top:20px;
+  padding:14px 25px;
+  border:none;
+  border-radius:8px;
+  background:#4da3ff;
+  color:white;
+  cursor:pointer;
+  font-size:16px;
+}
+
+
+@media(max-width:700px){
+
+.product-box{
+grid-template-columns:1fr;
+}
+
+h1{
+font-size:30px;
+}
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+<div id="productBox">
+
+Loading product...
+
+</div>
+
+</div>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+<script>
+
+
+const SUPABASE_URL =
+"https://cgclqejzzlrxkuksqgav.supabase.co";
+
+
+const SUPABASE_KEY =
+"YOUR_PUBLISHABLE_KEY";
+
+
+const supabaseClient =
+supabase.createClient(
+SUPABASE_URL,
+SUPABASE_KEY
+);
+
+
+
+function escapeHTML(value){
+
+return String(value)
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+
+}
+
+
+
+async function loadProduct(){
+
+
+const params =
+new URLSearchParams(
+window.location.search
+);
+
+
+const id =
+params.get("id");
+
+
+
+const {data,error}=await supabaseClient
+.from("posts")
+.select("*")
+.eq("id",id)
+.single();
+
+
+
+if(error){
+
+document.getElementById("productBox").innerHTML=
+"Product not found";
+
+return;
+
+}
+
+
+
+document.getElementById("productBox").innerHTML=`
+
+<div class="product-box">
+
+
+<div>
+
+<img 
+class="product-image"
+src="${escapeHTML(data.image_url)}"
+>
+
+</div>
+
+
+<div>
+
+
+<span class="category">
+${escapeHTML(data.category)}
+</span>
+
+
+<h1>
+${escapeHTML(data.title)}
+</h1>
+
+
+<p>
+${escapeHTML(data.description)}
+</p>
+
+
+<p>
+<strong>Price Per Piece:</strong>
+${escapeHTML(data.price_per_piece || "Contact")}
+</p>
+
+
+<p>
+<strong>Minimum Quantity:</strong>
+${escapeHTML(data.minimum_quantity || "Contact")}
+</p>
+
+
+<button>
+Add To Cart
+</button>
+
+
+<button>
+Order Now
+</button>
+
+
+
+</div>
+
+
+</div>
+
+`;
+
+
+}
+
+
+loadProduct();
+
+
+</script>
+
+
+</body>
+</html>
