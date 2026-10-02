@@ -23,7 +23,7 @@ body{
 .container{
     width:95%;
     max-width:1400px;
-    margin:40px auto;
+    margin:30px auto;
 }
 
 h1{
@@ -31,11 +31,17 @@ h1{
 }
 
 .login-box,
-.dashboard{
+.dashboard,
+.details-box{
     background:#0d1b2d;
     padding:25px;
     border-radius:15px;
     border:1px solid #1c3550;
+}
+
+.dashboard,
+.details-box{
+    display:none;
 }
 
 input,
@@ -61,30 +67,8 @@ button:hover{
     background:#0f6db5;
 }
 
-.dashboard{
-    display:none;
-}
-
-table{
-    width:100%;
-    border-collapse:collapse;
-    margin-top:25px;
-}
-
-th,
-td{
-    padding:14px;
-    border-bottom:1px solid #243b53;
-    text-align:left;
-    vertical-align:top;
-}
-
-th{
-    color:#5eb8ff;
-}
-
-.status{
-    min-width:140px;
+.search{
+    margin:20px 0;
 }
 
 .logout{
@@ -94,16 +78,97 @@ th{
     float:right;
 }
 
-.logout:hover{
-    background:#922727;
+.back{
+    width:auto;
+    padding:10px 20px;
+    margin-bottom:20px;
 }
 
-@media(max-width:900px){
+.orders-list{
+    display:grid;
+    gap:12px;
+}
 
-    table{
-        display:block;
-        overflow-x:auto;
-        white-space:nowrap;
+.order-card{
+    background:#10243a;
+    border:1px solid #244866;
+    border-radius:12px;
+    padding:18px;
+    cursor:pointer;
+}
+
+.order-card:hover{
+    background:#15304a;
+}
+
+.order-top{
+    display:flex;
+    justify-content:space-between;
+    gap:20px;
+}
+
+.order-product{
+    font-size:18px;
+    font-weight:bold;
+    color:#5eb8ff;
+}
+
+.order-info{
+    color:#b8c9d9;
+    margin-top:8px;
+}
+
+.status{
+    width:auto;
+    min-width:140px;
+    margin:0;
+}
+
+.detail-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+}
+
+.detail-section{
+    background:#10243a;
+    padding:18px;
+    border-radius:12px;
+    border:1px solid #244866;
+}
+
+.detail-section h3{
+    color:#5eb8ff;
+    margin-top:0;
+}
+
+.detail-row{
+    margin:10px 0;
+    line-height:1.5;
+}
+
+.label{
+    color:#91a8bc;
+}
+
+.value{
+    color:white;
+}
+
+.total{
+    font-size:22px;
+    color:#5eb8ff;
+    font-weight:bold;
+}
+
+@media(max-width:800px){
+
+    .detail-grid{
+        grid-template-columns:1fr;
+    }
+
+    .order-top{
+        flex-direction:column;
     }
 
 }
@@ -115,6 +180,7 @@ th{
 <div class="container">
 
 <h1>Trade-Hub Orders</h1>
+
 
 <!-- LOGIN -->
 
@@ -156,12 +222,40 @@ Logout
 
 <h2>Orders</h2>
 
+<input
+    class="search"
+    id="searchInput"
+    placeholder="Search by customer, product, WhatsApp, email, country or order ID..."
+    oninput="filterOrders()"
+>
+
 <button onclick="loadOrders()">
 Refresh Orders
 </button>
 
-<div id="ordersContainer">
+<div
+    id="ordersContainer"
+    class="orders-list"
+>
 Loading orders...
+</div>
+
+</div>
+
+
+<!-- ORDER DETAILS -->
+
+<div id="detailsBox" class="details-box">
+
+<button
+    class="back"
+    onclick="showDashboard()"
+>
+← Back to Orders
+</button>
+
+<div id="detailsContainer">
+Loading...
 </div>
 
 </div>
@@ -183,6 +277,8 @@ supabase.createClient(
     SUPABASE_KEY
 );
 
+let allOrders = [];
+
 
 // LOGIN
 
@@ -194,10 +290,10 @@ async function login(){
     const password =
         document.getElementById("password").value;
 
-    const { data, error } =
+    const { error } =
         await supabaseClient.auth.signInWithPassword({
-            email: email,
-            password: password
+            email:email,
+            password:password
         });
 
     if(error){
@@ -215,7 +311,6 @@ async function login(){
         "block";
 
     loadOrders();
-
 }
 
 
@@ -227,7 +322,7 @@ async function loadOrders(){
         await supabaseClient
         .from("orders")
         .select("*")
-        .order("created_at", {
+        .order("created_at",{
             ascending:false
         });
 
@@ -241,159 +336,420 @@ async function loadOrders(){
         return;
     }
 
+    allOrders = data || [];
 
-    if(!data || data.length === 0){
+    displayOrders(allOrders);
+}
 
-        document.getElementById("ordersContainer").innerHTML =
+
+// DISPLAY ORDERS
+
+function displayOrders(orders){
+
+    const container =
+        document.getElementById("ordersContainer");
+
+    if(!orders.length){
+
+        container.innerHTML =
             "<p>No orders found.</p>";
 
         return;
     }
 
+    container.innerHTML = "";
 
-    let html = `
+    orders.forEach(order => {
 
-    <table>
+        const card =
+            document.createElement("div");
 
-    <thead>
+        card.className =
+            "order-card";
 
-    <tr>
+        card.onclick = function(){
+            openOrder(order.id);
+        };
 
-        <th>Product</th>
+        card.innerHTML = `
 
-        <th>Customer</th>
+            <div class="order-top">
 
-        <th>Location</th>
+                <div>
 
-        <th>Contact</th>
+                    <div class="order-product">
+                        ${escapeHTML(order.product_name || "Unknown Product")}
+                    </div>
 
-        <th>Quantity</th>
+                    <div class="order-info">
+                        Order #${escapeHTML(String(order.id))}
+                    </div>
 
-        <th>Address</th>
+                    <div class="order-info">
+                        Customer:
+                        ${escapeHTML(order.customer_name || "")}
+                    </div>
 
-        <th>Message</th>
+                    <div class="order-info">
+                        Quantity:
+                        ${escapeHTML(String(order.quantity || ""))}
+                    </div>
 
-        <th>Date</th>
+                </div>
 
-        <th>Status</th>
+                <div>
 
-    </tr>
+                    <select
+                        class="status"
+                        onclick="event.stopPropagation()"
+                        onchange="updateStatus(${order.id},this.value)"
+                    >
 
-    </thead>
-
-    <tbody>
-
-    `;
-
-
-    data.forEach(order => {
-
-        html += `
-
-        <tr>
-
-            <td>
-                <strong>${escapeHTML(order.product_name || "")}</strong>
-            </td>
-
-            <td>
-                ${escapeHTML(order.customer_name || "")}
-            </td>
-
-            <td>
-                ${escapeHTML(order.country || "")}<br>
-                ${escapeHTML(order.city || "")}
-            </td>
-
-            <td>
-
-                WhatsApp:<br>
-                ${escapeHTML(order.whatsapp || "")}
-
-                <br><br>
-
-                Email:<br>
-                ${escapeHTML(order.email || "")}
-
-            </td>
-
-            <td>
-                ${escapeHTML(String(order.quantity || ""))}
-            </td>
-
-            <td>
-                ${escapeHTML(order.address || "")}
-            </td>
-
-            <td>
-                ${escapeHTML(order.message || "")}
-            </td>
-
-            <td>
-                ${new Date(order.created_at).toLocaleString()}
-            </td>
-
-            <td>
-
-                <select
-                    class="status"
-                    onchange="updateStatus(${order.id}, this.value)"
-                >
-
-                    <option value="Pending"
+                        <option value="Pending"
                         ${order.status === "Pending" ? "selected" : ""}>
                         Pending
-                    </option>
+                        </option>
 
-                    <option value="Confirmed"
+                        <option value="Confirmed"
                         ${order.status === "Confirmed" ? "selected" : ""}>
                         Confirmed
-                    </option>
+                        </option>
 
-                    <option value="Cancelled"
+                        <option value="Cancelled"
                         ${order.status === "Cancelled" ? "selected" : ""}>
                         Cancelled
-                    </option>
+                        </option>
 
-                    <option value="Shipped"
+                        <option value="Shipped"
                         ${order.status === "Shipped" ? "selected" : ""}>
                         Shipped
-                    </option>
+                        </option>
 
-                    <option value="Completed"
+                        <option value="Completed"
                         ${order.status === "Completed" ? "selected" : ""}>
                         Completed
-                    </option>
+                        </option>
 
-                </select>
+                    </select>
 
-            </td>
+                </div>
 
-        </tr>
+            </div>
 
         `;
 
+        container.appendChild(card);
+
     });
 
+}
 
-    html += `
 
-    </tbody>
+// SEARCH
 
-    </table>
+function filterOrders(){
+
+    const search =
+        document
+        .getElementById("searchInput")
+        .value
+        .toLowerCase()
+        .trim();
+
+    const filtered =
+        allOrders.filter(order => {
+
+            const text = [
+
+                order.id,
+                order.product_name,
+                order.customer_name,
+                order.whatsapp,
+                order.email,
+                order.country,
+                order.city
+
+            ].join(" ").toLowerCase();
+
+            return text.includes(search);
+
+        });
+
+    displayOrders(filtered);
+}
+
+
+// OPEN ORDER
+
+function openOrder(orderId){
+
+    const order =
+        allOrders.find(
+            item => String(item.id) === String(orderId)
+        );
+
+    if(!order){
+        return;
+    }
+
+    document.getElementById("dashboard").style.display =
+        "none";
+
+    document.getElementById("detailsBox").style.display =
+        "block";
+
+
+    const price =
+        Number(order.price_per_piece || 0);
+
+    const quantity =
+        Number(order.quantity || 0);
+
+    const shipping =
+        Number(order.shipping_cost || 0);
+
+    const calculatedProductsTotal =
+        price * quantity;
+
+    const total =
+        order.total_amount !== null &&
+        order.total_amount !== undefined
+        ? Number(order.total_amount)
+        : calculatedProductsTotal + shipping;
+
+
+    document.getElementById("detailsContainer").innerHTML = `
+
+        <h2>Order #${escapeHTML(String(order.id))}</h2>
+
+        <div class="detail-grid">
+
+
+            <div class="detail-section">
+
+                <h3>Customer Details</h3>
+
+                <div class="detail-row">
+                    <span class="label">Name:</span><br>
+                    <span class="value">
+                    ${escapeHTML(order.customer_name || "")}
+                    </span>
+                </div>
+
+                <div class="detail-row">
+                    <span class="label">WhatsApp:</span><br>
+                    <span class="value">
+                    ${escapeHTML(order.whatsapp || "")}
+                    </span>
+                </div>
+
+                <div class="detail-row">
+                    <span class="label">Email:</span><br>
+                    <span class="value">
+                    ${escapeHTML(order.email || "")}
+                    </span>
+                </div>
+
+                <div class="detail-row">
+                    <span class="label">Country:</span><br>
+                    <span class="value">
+                    ${escapeHTML(order.country || "")}
+                    </span>
+                </div>
+
+                <div class="detail-row">
+                    <span class="label">City:</span><br>
+                    <span class="value">
+                    ${escapeHTML(order.city || "")}
+                    </span>
+                </div>
+
+                <div class="detail-row">
+                    <span class="label">Address:</span><br>
+                    <span class="value">
+                    ${escapeHTML(order.address || "")}
+                    </span>
+                </div>
+
+            </div>
+
+
+            <div class="detail-section">
+
+                <h3>Order Details</h3>
+
+                <div class="detail-row">
+                    <span class="label">Product:</span><br>
+                    <span class="value">
+                    ${escapeHTML(order.product_name || "")}
+                    </span>
+                </div>
+
+                <div class="detail-row">
+                    <span class="label">Quantity:</span><br>
+                    <span class="value">
+                    ${escapeHTML(String(order.quantity || ""))}
+                    </span>
+                </div>
+
+                <div class="detail-row">
+                    <span class="label">Price Per Piece:</span><br>
+                    <span class="value">
+                    $${price.toFixed(2)}
+                    </span>
+                </div>
+
+                <div class="detail-row">
+                    <span class="label">Products Total:</span><br>
+                    <span class="value">
+                    $${calculatedProductsTotal.toFixed(2)}
+                    </span>
+                </div>
+
+                <div class="detail-row">
+                    <span class="label">Shipping Cost:</span><br>
+                    <span class="value">
+                    $${shipping.toFixed(2)}
+                    </span>
+                </div>
+
+                <div class="detail-row">
+                    <span class="label">Grand Total:</span><br>
+                    <span class="total">
+                    $${total.toFixed(2)}
+                    </span>
+                </div>
+
+            </div>
+
+
+            <div class="detail-section">
+
+                <h3>Payment</h3>
+
+                <div class="detail-row">
+                    <span class="label">Payment Method:</span><br>
+                    <span class="value">
+                    ${escapeHTML(order.payment_method || "Not provided")}
+                    </span>
+                </div>
+
+                <div class="detail-row">
+                    <span class="label">Payment Status:</span><br>
+                    <span class="value">
+                    ${escapeHTML(order.payment_status || "Pending")}
+                    </span>
+                </div>
+
+                <div class="detail-row">
+                    <span class="label">Reference:</span><br>
+                    <span class="value">
+                    ${escapeHTML(order.payment_reference || "Not provided")}
+                    </span>
+                </div>
+
+                <div class="detail-row">
+                    <span class="label">Payment Received:</span><br>
+                    <span class="value">
+                    ${formatDate(order.payment_received_at)}
+                    </span>
+                </div>
+
+            </div>
+
+
+            <div class="detail-section">
+
+                <h3>Shipping</h3>
+
+                <div class="detail-row">
+                    <span class="label">Shipping Method:</span><br>
+                    <span class="value">
+                    ${escapeHTML(order.shipping_method || "Not provided")}
+                    </span>
+                </div>
+
+                <div class="detail-row">
+                    <span class="label">Tracking Number:</span><br>
+                    <span class="value">
+                    ${escapeHTML(order.tracking_number || "Not provided")}
+                    </span>
+                </div>
+
+                <div class="detail-row">
+                    <span class="label">Shipped:</span><br>
+                    <span class="value">
+                    ${formatDate(order.shipped_at)}
+                    </span>
+                </div>
+
+                <div class="detail-row">
+                    <span class="label">Delivered:</span><br>
+                    <span class="value">
+                    ${formatDate(order.delivered_at)}
+                    </span>
+                </div>
+
+            </div>
+
+
+            <div class="detail-section">
+
+                <h3>Order Information</h3>
+
+                <div class="detail-row">
+                    <span class="label">Status:</span><br>
+                    <span class="value">
+                    ${escapeHTML(order.status || "Pending")}
+                    </span>
+                </div>
+
+                <div class="detail-row">
+                    <span class="label">Order Source:</span><br>
+                    <span class="value">
+                    ${escapeHTML(order.order_source || "Website")}
+                    </span>
+                </div>
+
+                <div class="detail-row">
+                    <span class="label">Order Created:</span><br>
+                    <span class="value">
+                    ${formatDate(order.created_at)}
+                    </span>
+                </div>
+
+                <div class="detail-row">
+                    <span class="label">Customer Message:</span><br>
+                    <span class="value">
+                    ${escapeHTML(order.message || "No message")}
+                    </span>
+                </div>
+
+            </div>
+
+        </div>
 
     `;
 
+}
 
-    document.getElementById("ordersContainer").innerHTML =
-        html;
+
+// BACK TO ORDERS
+
+function showDashboard(){
+
+    document.getElementById("detailsBox").style.display =
+        "none";
+
+    document.getElementById("dashboard").style.display =
+        "block";
 
 }
 
 
 // UPDATE STATUS
 
-async function updateStatus(orderId, newStatus){
+async function updateStatus(orderId,newStatus){
 
     const { error } =
         await supabaseClient
@@ -407,9 +763,18 @@ async function updateStatus(orderId, newStatus){
 
         console.error(error);
 
-        alert("Unable to update order status.");
+        alert("Unable to update status.");
 
         return;
+    }
+
+    const order =
+        allOrders.find(
+            item => String(item.id) === String(orderId)
+        );
+
+    if(order){
+        order.status = newStatus;
     }
 
     alert("Order status updated!");
@@ -428,7 +793,20 @@ async function logout(){
 }
 
 
-// HTML SECURITY
+// DATE FORMAT
+
+function formatDate(date){
+
+    if(!date){
+        return "Not received";
+    }
+
+    return new Date(date).toLocaleString();
+
+}
+
+
+// SECURITY
 
 function escapeHTML(value){
 
