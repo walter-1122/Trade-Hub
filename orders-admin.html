@@ -9,6 +9,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
+
 *{
     box-sizing:border-box;
 }
@@ -45,6 +46,7 @@ h1{
 }
 
 input,
+textarea,
 button,
 select{
     width:100%;
@@ -54,6 +56,11 @@ select{
     border:1px solid #294766;
     background:#081523;
     color:white;
+}
+
+textarea{
+    min-height:100px;
+    resize:vertical;
 }
 
 button{
@@ -81,12 +88,22 @@ button:hover{
 .back{
     width:auto;
     padding:10px 20px;
-    margin-bottom:20px;
+}
+
+.save{
+    background:#168f4d;
+    font-size:16px;
+    margin-top:25px;
+}
+
+.save:hover{
+    background:#116d3b;
 }
 
 .orders-list{
     display:grid;
     gap:12px;
+    margin-top:20px;
 }
 
 .order-card{
@@ -118,7 +135,7 @@ button:hover{
     margin-top:8px;
 }
 
-.status{
+.status-small{
     width:auto;
     min-width:140px;
     margin:0;
@@ -128,6 +145,7 @@ button:hover{
     display:grid;
     grid-template-columns:repeat(2,1fr);
     gap:15px;
+    margin-top:20px;
 }
 
 .detail-section{
@@ -142,23 +160,22 @@ button:hover{
     margin-top:0;
 }
 
-.detail-row{
-    margin:10px 0;
-    line-height:1.5;
-}
-
-.label{
+.detail-section label{
+    display:block;
+    margin-top:12px;
     color:#91a8bc;
-}
-
-.value{
-    color:white;
 }
 
 .total{
     font-size:22px;
     color:#5eb8ff;
     font-weight:bold;
+}
+
+.message{
+    margin-top:15px;
+    padding:12px;
+    border-radius:8px;
 }
 
 @media(max-width:800px){
@@ -172,6 +189,7 @@ button:hover{
     }
 
 }
+
 </style>
 </head>
 
@@ -225,7 +243,7 @@ Logout
 <input
     class="search"
     id="searchInput"
-    placeholder="Search by customer, product, WhatsApp, email, country or order ID..."
+    placeholder="Search customer, product, WhatsApp, email, country or order ID..."
     oninput="filterOrders()"
 >
 
@@ -243,7 +261,7 @@ Loading orders...
 </div>
 
 
-<!-- ORDER DETAILS -->
+<!-- DETAILS -->
 
 <div id="detailsBox" class="details-box">
 
@@ -255,7 +273,6 @@ Loading orders...
 </button>
 
 <div id="detailsContainer">
-Loading...
 </div>
 
 </div>
@@ -279,6 +296,8 @@ supabase.createClient(
 
 let allOrders = [];
 
+let currentOrder = null;
+
 
 // LOGIN
 
@@ -292,8 +311,10 @@ async function login(){
 
     const { error } =
         await supabaseClient.auth.signInWithPassword({
+
             email:email,
             password:password
+
         });
 
     if(error){
@@ -368,7 +389,9 @@ function displayOrders(orders){
             "order-card";
 
         card.onclick = function(){
+
             openOrder(order.id);
+
         };
 
         card.innerHTML = `
@@ -378,21 +401,38 @@ function displayOrders(orders){
                 <div>
 
                     <div class="order-product">
-                        ${escapeHTML(order.product_name || "Unknown Product")}
+
+                        ${escapeHTML(
+                            order.product_name ||
+                            "Unknown Product"
+                        )}
+
                     </div>
 
                     <div class="order-info">
-                        Order #${escapeHTML(String(order.id))}
+
+                        Order #${escapeHTML(
+                            String(order.id)
+                        )}
+
                     </div>
 
                     <div class="order-info">
+
                         Customer:
-                        ${escapeHTML(order.customer_name || "")}
+                        ${escapeHTML(
+                            order.customer_name || ""
+                        )}
+
                     </div>
 
                     <div class="order-info">
+
                         Quantity:
-                        ${escapeHTML(String(order.quantity || ""))}
+                        ${escapeHTML(
+                            String(order.quantity || "")
+                        )}
+
                     </div>
 
                 </div>
@@ -400,34 +440,47 @@ function displayOrders(orders){
                 <div>
 
                     <select
-                        class="status"
+                        class="status-small"
                         onclick="event.stopPropagation()"
-                        onchange="updateStatus(${order.id},this.value)"
+                        onchange="updateStatus(
+                            ${order.id},
+                            this.value
+                        )"
                     >
 
                         <option value="Pending"
-                        ${order.status === "Pending" ? "selected" : ""}>
-                        Pending
+                        ${order.status === "Pending"
+                        ? "selected"
+                        : ""}>
+                            Pending
                         </option>
 
                         <option value="Confirmed"
-                        ${order.status === "Confirmed" ? "selected" : ""}>
-                        Confirmed
+                        ${order.status === "Confirmed"
+                        ? "selected"
+                        : ""}>
+                            Confirmed
                         </option>
 
                         <option value="Cancelled"
-                        ${order.status === "Cancelled" ? "selected" : ""}>
-                        Cancelled
+                        ${order.status === "Cancelled"
+                        ? "selected"
+                        : ""}>
+                            Cancelled
                         </option>
 
                         <option value="Shipped"
-                        ${order.status === "Shipped" ? "selected" : ""}>
-                        Shipped
+                        ${order.status === "Shipped"
+                        ? "selected"
+                        : ""}>
+                            Shipped
                         </option>
 
                         <option value="Completed"
-                        ${order.status === "Completed" ? "selected" : ""}>
-                        Completed
+                        ${order.status === "Completed"
+                        ? "selected"
+                        : ""}>
+                            Completed
                         </option>
 
                     </select>
@@ -441,7 +494,6 @@ function displayOrders(orders){
         container.appendChild(card);
 
     });
-
 }
 
 
@@ -485,12 +537,16 @@ function openOrder(orderId){
 
     const order =
         allOrders.find(
-            item => String(item.id) === String(orderId)
+            item =>
+            String(item.id) ===
+            String(orderId)
         );
 
     if(!order){
         return;
     }
+
+    currentOrder = order;
 
     document.getElementById("dashboard").style.display =
         "none";
@@ -499,234 +555,622 @@ function openOrder(orderId){
         "block";
 
 
-    const price =
-        Number(order.price_per_piece || 0);
-
-    const quantity =
-        Number(order.quantity || 0);
-
-    const shipping =
-        Number(order.shipping_cost || 0);
-
-    const calculatedProductsTotal =
-        price * quantity;
-
-    const total =
-        order.total_amount !== null &&
-        order.total_amount !== undefined
-        ? Number(order.total_amount)
-        : calculatedProductsTotal + shipping;
-
-
     document.getElementById("detailsContainer").innerHTML = `
 
-        <h2>Order #${escapeHTML(String(order.id))}</h2>
+        <h2>
+            Edit Order #${escapeHTML(
+                String(order.id)
+            )}
+        </h2>
+
 
         <div class="detail-grid">
 
+
+            <!-- CUSTOMER -->
 
             <div class="detail-section">
 
                 <h3>Customer Details</h3>
 
-                <div class="detail-row">
-                    <span class="label">Name:</span><br>
-                    <span class="value">
-                    ${escapeHTML(order.customer_name || "")}
-                    </span>
-                </div>
+                <label>Name</label>
 
-                <div class="detail-row">
-                    <span class="label">WhatsApp:</span><br>
-                    <span class="value">
-                    ${escapeHTML(order.whatsapp || "")}
-                    </span>
-                </div>
+                <input
+                    id="editCustomerName"
+                    value="${escapeAttr(
+                        order.customer_name || ""
+                    )}"
+                >
 
-                <div class="detail-row">
-                    <span class="label">Email:</span><br>
-                    <span class="value">
-                    ${escapeHTML(order.email || "")}
-                    </span>
-                </div>
 
-                <div class="detail-row">
-                    <span class="label">Country:</span><br>
-                    <span class="value">
-                    ${escapeHTML(order.country || "")}
-                    </span>
-                </div>
+                <label>WhatsApp</label>
 
-                <div class="detail-row">
-                    <span class="label">City:</span><br>
-                    <span class="value">
-                    ${escapeHTML(order.city || "")}
-                    </span>
-                </div>
+                <input
+                    id="editWhatsapp"
+                    value="${escapeAttr(
+                        order.whatsapp || ""
+                    )}"
+                >
 
-                <div class="detail-row">
-                    <span class="label">Address:</span><br>
-                    <span class="value">
-                    ${escapeHTML(order.address || "")}
-                    </span>
-                </div>
+
+                <label>Email</label>
+
+                <input
+                    id="editEmail"
+                    value="${escapeAttr(
+                        order.email || ""
+                    )}"
+                >
+
+
+                <label>Country</label>
+
+                <input
+                    id="editCountry"
+                    value="${escapeAttr(
+                        order.country || ""
+                    )}"
+                >
+
+
+                <label>City</label>
+
+                <input
+                    id="editCity"
+                    value="${escapeAttr(
+                        order.city || ""
+                    )}"
+                >
+
+
+                <label>Address</label>
+
+                <textarea
+                    id="editAddress"
+                >${escapeHTML(
+                    order.address || ""
+                )}</textarea>
 
             </div>
 
+
+            <!-- ORDER -->
 
             <div class="detail-section">
 
                 <h3>Order Details</h3>
 
-                <div class="detail-row">
-                    <span class="label">Product:</span><br>
-                    <span class="value">
-                    ${escapeHTML(order.product_name || "")}
-                    </span>
-                </div>
+                <label>Product</label>
 
-                <div class="detail-row">
-                    <span class="label">Quantity:</span><br>
-                    <span class="value">
-                    ${escapeHTML(String(order.quantity || ""))}
-                    </span>
-                </div>
+                <input
+                    id="editProductName"
+                    value="${escapeAttr(
+                        order.product_name || ""
+                    )}"
+                >
 
-                <div class="detail-row">
-                    <span class="label">Price Per Piece:</span><br>
-                    <span class="value">
-                    $${price.toFixed(2)}
-                    </span>
-                </div>
 
-                <div class="detail-row">
-                    <span class="label">Products Total:</span><br>
-                    <span class="value">
-                    $${calculatedProductsTotal.toFixed(2)}
-                    </span>
-                </div>
+                <label>Quantity</label>
 
-                <div class="detail-row">
-                    <span class="label">Shipping Cost:</span><br>
-                    <span class="value">
-                    $${shipping.toFixed(2)}
-                    </span>
-                </div>
+                <input
+                    type="number"
+                    id="editQuantity"
+                    value="${escapeAttr(
+                        String(order.quantity || "")
+                    )}"
+                >
 
-                <div class="detail-row">
-                    <span class="label">Grand Total:</span><br>
-                    <span class="total">
-                    $${total.toFixed(2)}
-                    </span>
-                </div>
+
+                <label>Price Per Piece</label>
+
+                <input
+                    type="number"
+                    step="0.01"
+                    id="editPrice"
+                    value="${escapeAttr(
+                        order.price_per_piece ?? ""
+                    )}"
+                >
+
+
+                <label>Shipping Cost</label>
+
+                <input
+                    type="number"
+                    step="0.01"
+                    id="editShipping"
+                    value="${escapeAttr(
+                        order.shipping_cost ?? 0
+                    )}"
+                >
+
+
+                <label>Total Amount</label>
+
+                <input
+                    type="number"
+                    step="0.01"
+                    id="editTotal"
+                    value="${escapeAttr(
+                        order.total_amount ?? ""
+                    )}"
+                >
 
             </div>
 
+
+            <!-- PAYMENT -->
 
             <div class="detail-section">
 
-                <h3>Payment</h3>
+                <h3>Payment Details</h3>
 
-                <div class="detail-row">
-                    <span class="label">Payment Method:</span><br>
-                    <span class="value">
-                    ${escapeHTML(order.payment_method || "Not provided")}
-                    </span>
-                </div>
+                <label>Payment Method</label>
 
-                <div class="detail-row">
-                    <span class="label">Payment Status:</span><br>
-                    <span class="value">
-                    ${escapeHTML(order.payment_status || "Pending")}
-                    </span>
-                </div>
+                <select id="editPaymentMethod">
 
-                <div class="detail-row">
-                    <span class="label">Reference:</span><br>
-                    <span class="value">
-                    ${escapeHTML(order.payment_reference || "Not provided")}
-                    </span>
-                </div>
+                    <option value="">
+                        Select Payment Method
+                    </option>
 
-                <div class="detail-row">
-                    <span class="label">Payment Received:</span><br>
-                    <span class="value">
-                    ${formatDate(order.payment_received_at)}
-                    </span>
-                </div>
+                    <option value="Cash"
+                    ${order.payment_method === "Cash"
+                    ? "selected" : ""}>
+                        Cash
+                    </option>
+
+                    <option value="Card"
+                    ${order.payment_method === "Card"
+                    ? "selected" : ""}>
+                        Card
+                    </option>
+
+                    <option value="JazzCash"
+                    ${order.payment_method === "JazzCash"
+                    ? "selected" : ""}>
+                        JazzCash
+                    </option>
+
+                    <option value="EasyPaisa"
+                    ${order.payment_method === "EasyPaisa"
+                    ? "selected" : ""}>
+                        EasyPaisa
+                    </option>
+
+                    <option value="Bank Transfer"
+                    ${order.payment_method === "Bank Transfer"
+                    ? "selected" : ""}>
+                        Bank Transfer
+                    </option>
+
+                    <option value="PayPal"
+                    ${order.payment_method === "PayPal"
+                    ? "selected" : ""}>
+                        PayPal
+                    </option>
+
+                    <option value="Other"
+                    ${order.payment_method === "Other"
+                    ? "selected" : ""}>
+                        Other
+                    </option>
+
+                </select>
+
+
+                <label>Payment Status</label>
+
+                <select id="editPaymentStatus">
+
+                    <option value="Pending"
+                    ${order.payment_status === "Pending"
+                    ? "selected" : ""}>
+                        Pending
+                    </option>
+
+                    <option value="Paid"
+                    ${order.payment_status === "Paid"
+                    ? "selected" : ""}>
+                        Paid
+                    </option>
+
+                    <option value="Failed"
+                    ${order.payment_status === "Failed"
+                    ? "selected" : ""}>
+                        Failed
+                    </option>
+
+                    <option value="Refunded"
+                    ${order.payment_status === "Refunded"
+                    ? "selected" : ""}>
+                        Refunded
+                    </option>
+
+                </select>
+
+
+                <label>Payment Reference</label>
+
+                <input
+                    id="editPaymentReference"
+                    value="${escapeAttr(
+                        order.payment_reference || ""
+                    )}"
+                >
+
+
+                <label>Payment Received</label>
+
+                <input
+                    type="datetime-local"
+                    id="editPaymentReceived"
+                    value="${toDateInput(
+                        order.payment_received_at
+                    )}"
+                >
 
             </div>
 
+
+            <!-- SHIPPING -->
 
             <div class="detail-section">
 
-                <h3>Shipping</h3>
+                <h3>Shipping Details</h3>
 
-                <div class="detail-row">
-                    <span class="label">Shipping Method:</span><br>
-                    <span class="value">
-                    ${escapeHTML(order.shipping_method || "Not provided")}
-                    </span>
-                </div>
+                <label>Shipping Method</label>
 
-                <div class="detail-row">
-                    <span class="label">Tracking Number:</span><br>
-                    <span class="value">
-                    ${escapeHTML(order.tracking_number || "Not provided")}
-                    </span>
-                </div>
+                <input
+                    id="editShippingMethod"
+                    value="${escapeAttr(
+                        order.shipping_method || ""
+                    )}"
+                    placeholder="UPS, FedEx, DHL..."
+                >
 
-                <div class="detail-row">
-                    <span class="label">Shipped:</span><br>
-                    <span class="value">
-                    ${formatDate(order.shipped_at)}
-                    </span>
-                </div>
 
-                <div class="detail-row">
-                    <span class="label">Delivered:</span><br>
-                    <span class="value">
-                    ${formatDate(order.delivered_at)}
-                    </span>
-                </div>
+                <label>Tracking Number</label>
+
+                <input
+                    id="editTracking"
+                    value="${escapeAttr(
+                        order.tracking_number || ""
+                    )}"
+                >
+
+
+                <label>Shipped Date</label>
+
+                <input
+                    type="datetime-local"
+                    id="editShippedAt"
+                    value="${toDateInput(
+                        order.shipped_at
+                    )}"
+                >
+
+
+                <label>Delivered Date</label>
+
+                <input
+                    type="datetime-local"
+                    id="editDeliveredAt"
+                    value="${toDateInput(
+                        order.delivered_at
+                    )}"
+                >
 
             </div>
 
+
+            <!-- STATUS -->
 
             <div class="detail-section">
 
-                <h3>Order Information</h3>
+                <h3>Order Status</h3>
 
-                <div class="detail-row">
-                    <span class="label">Status:</span><br>
-                    <span class="value">
-                    ${escapeHTML(order.status || "Pending")}
-                    </span>
-                </div>
+                <label>Status</label>
 
-                <div class="detail-row">
-                    <span class="label">Order Source:</span><br>
-                    <span class="value">
-                    ${escapeHTML(order.order_source || "Website")}
-                    </span>
-                </div>
+                <select id="editStatus">
 
-                <div class="detail-row">
-                    <span class="label">Order Created:</span><br>
-                    <span class="value">
-                    ${formatDate(order.created_at)}
-                    </span>
-                </div>
+                    <option value="Pending"
+                    ${order.status === "Pending"
+                    ? "selected" : ""}>
+                        Pending
+                    </option>
 
-                <div class="detail-row">
-                    <span class="label">Customer Message:</span><br>
-                    <span class="value">
-                    ${escapeHTML(order.message || "No message")}
-                    </span>
-                </div>
+                    <option value="Confirmed"
+                    ${order.status === "Confirmed"
+                    ? "selected" : ""}>
+                        Confirmed
+                    </option>
+
+                    <option value="Cancelled"
+                    ${order.status === "Cancelled"
+                    ? "selected" : ""}>
+                        Cancelled
+                    </option>
+
+                    <option value="Shipped"
+                    ${order.status === "Shipped"
+                    ? "selected" : ""}>
+                        Shipped
+                    </option>
+
+                    <option value="Completed"
+                    ${order.status === "Completed"
+                    ? "selected" : ""}>
+                        Completed
+                    </option>
+
+                </select>
+
+
+                <label>Order Source</label>
+
+                <input
+                    id="editOrderSource"
+                    value="${escapeAttr(
+                        order.order_source ||
+                        "Website"
+                    )}"
+                >
 
             </div>
 
+
+            <!-- NOTES -->
+
+            <div class="detail-section">
+
+                <h3>Notes</h3>
+
+                <label>Customer Message</label>
+
+                <textarea
+                    id="editMessage"
+                >${escapeHTML(
+                    order.message || ""
+                )}</textarea>
+
+            </div>
+
+        </div>
+
+
+        <button
+            class="save"
+            onclick="saveOrder()"
+        >
+            💾 Save Changes
+        </button>
+
+        <div id="saveMessage"></div>
+
+    `;
+
+}
+
+
+// SAVE ORDER
+
+async function saveOrder(){
+
+    if(!currentOrder){
+        return;
+    }
+
+
+    const quantity =
+        Number(
+            document.getElementById(
+                "editQuantity"
+            ).value
+        ) || 0;
+
+
+    const price =
+        Number(
+            document.getElementById(
+                "editPrice"
+            ).value
+        ) || 0;
+
+
+    const shipping =
+        Number(
+            document.getElementById(
+                "editShipping"
+            ).value
+        ) || 0;
+
+
+    let total =
+        document.getElementById(
+            "editTotal"
+        ).value;
+
+
+    if(total === ""){
+
+        total =
+            (price * quantity) +
+            shipping;
+
+    }else{
+
+        total =
+            Number(total);
+
+    }
+
+
+    const updateData = {
+
+        customer_name:
+            document.getElementById(
+                "editCustomerName"
+            ).value.trim(),
+
+        whatsapp:
+            document.getElementById(
+                "editWhatsapp"
+            ).value.trim(),
+
+        email:
+            document.getElementById(
+                "editEmail"
+            ).value.trim(),
+
+        country:
+            document.getElementById(
+                "editCountry"
+            ).value.trim(),
+
+        city:
+            document.getElementById(
+                "editCity"
+            ).value.trim(),
+
+        address:
+            document.getElementById(
+                "editAddress"
+            ).value.trim(),
+
+        product_name:
+            document.getElementById(
+                "editProductName"
+            ).value.trim(),
+
+        quantity:
+            quantity,
+
+        price_per_piece:
+            price,
+
+        shipping_cost:
+            shipping,
+
+        total_amount:
+            total,
+
+        payment_method:
+            document.getElementById(
+                "editPaymentMethod"
+            ).value,
+
+        payment_status:
+            document.getElementById(
+                "editPaymentStatus"
+            ).value,
+
+        payment_reference:
+            document.getElementById(
+                "editPaymentReference"
+            ).value.trim(),
+
+        payment_received_at:
+            dateOrNull(
+                document.getElementById(
+                    "editPaymentReceived"
+                ).value
+            ),
+
+        shipping_method:
+            document.getElementById(
+                "editShippingMethod"
+            ).value.trim(),
+
+        tracking_number:
+            document.getElementById(
+                "editTracking"
+            ).value.trim(),
+
+        shipped_at:
+            dateOrNull(
+                document.getElementById(
+                    "editShippedAt"
+                ).value
+            ),
+
+        delivered_at:
+            dateOrNull(
+                document.getElementById(
+                    "editDeliveredAt"
+                ).value
+            ),
+
+        status:
+            document.getElementById(
+                "editStatus"
+            ).value,
+
+        order_source:
+            document.getElementById(
+                "editOrderSource"
+            ).value.trim(),
+
+        message:
+            document.getElementById(
+                "editMessage"
+            ).value.trim()
+
+    };
+
+
+    const { data, error } =
+        await supabaseClient
+        .from("orders")
+        .update(updateData)
+        .eq("id",currentOrder.id)
+        .select()
+        .single();
+
+
+    if(error){
+
+        console.error(error);
+
+        document.getElementById(
+            "saveMessage"
+        ).innerHTML = `
+
+            <div class="message">
+                ❌ Unable to save changes.
+                <br>
+                ${escapeHTML(error.message)}
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    currentOrder =
+        data;
+
+    const index =
+        allOrders.findIndex(
+            item =>
+            String(item.id) ===
+            String(currentOrder.id)
+        );
+
+    if(index !== -1){
+
+        allOrders[index] =
+            data;
+
+    }
+
+
+    document.getElementById(
+        "saveMessage"
+    ).innerHTML = `
+
+        <div class="message">
+            ✅ Order updated successfully!
         </div>
 
     `;
@@ -734,22 +1178,12 @@ function openOrder(orderId){
 }
 
 
-// BACK TO ORDERS
+// STATUS QUICK UPDATE
 
-function showDashboard(){
-
-    document.getElementById("detailsBox").style.display =
-        "none";
-
-    document.getElementById("dashboard").style.display =
-        "block";
-
-}
-
-
-// UPDATE STATUS
-
-async function updateStatus(orderId,newStatus){
+async function updateStatus(
+    orderId,
+    newStatus
+){
 
     const { error } =
         await supabaseClient
@@ -759,25 +1193,56 @@ async function updateStatus(orderId,newStatus){
         })
         .eq("id",orderId);
 
+
     if(error){
 
         console.error(error);
 
-        alert("Unable to update status.");
+        alert(
+            "Unable to update status."
+        );
 
         return;
     }
 
+
     const order =
         allOrders.find(
-            item => String(item.id) === String(orderId)
+            item =>
+            String(item.id) ===
+            String(orderId)
         );
 
+
     if(order){
-        order.status = newStatus;
+
+        order.status =
+            newStatus;
+
     }
 
-    alert("Order status updated!");
+    alert(
+        "Order status updated!"
+    );
+
+}
+
+
+// BACK
+
+function showDashboard(){
+
+    document.getElementById(
+        "detailsBox"
+    ).style.display =
+        "none";
+
+    document.getElementById(
+        "dashboard"
+    ).style.display =
+        "block";
+
+    loadOrders();
 
 }
 
@@ -793,15 +1258,46 @@ async function logout(){
 }
 
 
-// DATE FORMAT
+// DATE INPUT
 
-function formatDate(date){
+function toDateInput(date){
 
     if(!date){
-        return "Not received";
+        return "";
     }
 
-    return new Date(date).toLocaleString();
+    const d =
+        new Date(date);
+
+    if(isNaN(d.getTime())){
+        return "";
+    }
+
+    const offset =
+        d.getTimezoneOffset();
+
+    const local =
+        new Date(
+            d.getTime() -
+            offset * 60000
+        );
+
+    return local
+        .toISOString()
+        .slice(0,16);
+
+}
+
+
+// DATE SAVE
+
+function dateOrNull(value){
+
+    if(!value){
+        return null;
+    }
+
+    return new Date(value).toISOString();
 
 }
 
@@ -816,6 +1312,13 @@ function escapeHTML(value){
         .replace(/>/g,"&gt;")
         .replace(/"/g,"&quot;")
         .replace(/'/g,"&#039;");
+
+}
+
+
+function escapeAttr(value){
+
+    return escapeHTML(value);
 
 }
 
