@@ -260,7 +260,90 @@ function showOrderForm(){
     document.getElementById("orderForm").style.display = "block";
 
 }
-loadProduct();
+  async function placeOrder(){
+
+    async function placeOrder(){
+
+    const name =
+        document.getElementById("customerName").value.trim();
+
+    const country =
+        document.getElementById("country").value.trim();
+
+    const city =
+        document.getElementById("city").value.trim();
+
+    const whatsapp =
+        document.getElementById("whatsapp").value.trim();
+
+    const email =
+        document.getElementById("email").value.trim();
+
+    const address =
+        document.getElementById("address").value.trim();
+
+    const quantity =
+        document.getElementById("quantity").value;
+
+    const message =
+        document.getElementById("message").value.trim();
+
+    if (!name || !country || !city || !whatsapp || !address || !quantity) {
+        alert("Please fill in all required fields.");
+        return;
+    }
+
+    const params =
+        new URLSearchParams(window.location.search);
+
+    const productId =
+        params.get("id");
+
+    const {
+        data: product,
+        error: productError
+    } = await supabaseClient
+        .from("posts")
+        .select("*")
+        .eq("id", productId)
+        .single();
+
+    if (productError) {
+        console.error(productError);
+        alert("Unable to find this product.");
+        return;
+    }
+
+    const { error } = await supabaseClient
+        .from("orders")
+        .insert([
+            {
+                product_id: product.id,
+                product_name: product.title,
+                customer_name: name,
+                country: country,
+                city: city,
+                whatsapp: whatsapp,
+                email: email,
+                address: address,
+                quantity: Number(quantity),
+                message: message,
+                status: "Pending"
+            }
+        ]);
+
+    if (error) {
+        console.error(error);
+        alert("Unable to place order. Please try again.");
+        return;
+    }
+
+    alert("Order placed successfully!");
+}
+
+  }
+  
+    loadProduct()
 
 
 </script>
