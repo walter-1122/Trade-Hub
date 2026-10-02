@@ -960,14 +960,12 @@ async function saveOrder(){
         return;
     }
 
-
     const quantity =
         Number(
             document.getElementById(
                 "editQuantity"
             ).value
         ) || 0;
-
 
     const price =
         Number(
@@ -976,7 +974,6 @@ async function saveOrder(){
             ).value
         ) || 0;
 
-
     const shipping =
         Number(
             document.getElementById(
@@ -984,12 +981,10 @@ async function saveOrder(){
             ).value
         ) || 0;
 
-
     let total =
         document.getElementById(
             "editTotal"
         ).value;
-
 
     if(total === ""){
 
@@ -1003,7 +998,6 @@ async function saveOrder(){
             Number(total);
 
     }
-
 
     const updateData = {
 
@@ -1118,13 +1112,26 @@ async function saveOrder(){
     };
 
 
-    const { data, error } =
+    /*
+        IMPORTANT FIX:
+
+        We do NOT use:
+        .select()
+        .single()
+
+        after update.
+
+        Supabase can return an empty response for UPDATE,
+        which was causing:
+
+        "Cannot coerce the result to a single JSON object"
+    */
+
+    const { error } =
         await supabaseClient
         .from("orders")
         .update(updateData)
-        .eq("id",currentOrder.id)
-        .select()
-        .single();
+        .eq("id", currentOrder.id);
 
 
     if(error){
@@ -1147,8 +1154,17 @@ async function saveOrder(){
     }
 
 
-    currentOrder =
-        data;
+    /*
+        Update the current order locally
+        because we no longer receive
+        the updated row from .select().single()
+    */
+
+    Object.assign(
+        currentOrder,
+        updateData
+    );
+
 
     const index =
         allOrders.findIndex(
@@ -1157,10 +1173,11 @@ async function saveOrder(){
             String(currentOrder.id)
         );
 
+
     if(index !== -1){
 
         allOrders[index] =
-            data;
+            currentOrder;
 
     }
 
@@ -1220,6 +1237,7 @@ async function updateStatus(
             newStatus;
 
     }
+
 
     alert(
         "Order status updated!"
