@@ -260,9 +260,8 @@ function showOrderForm(){
     document.getElementById("orderForm").style.display = "block";
 
 }
-  async function placeOrder(){
 
-    async function placeOrder(){
+async function placeOrder(){
 
     const name =
         document.getElementById("customerName").value.trim();
@@ -314,7 +313,8 @@ function showOrderForm(){
         return;
     }
 
-    const { error } = await supabaseClient
+    const { error } =
+        await supabaseClient
         .from("orders")
         .insert([
             {
@@ -339,12 +339,10 @@ function showOrderForm(){
     }
 
     alert("Order placed successfully!");
+
 }
 
-  }
-  
-    loadProduct()
-
+loadProduct();
 
 </script>
 
