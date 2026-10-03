@@ -2160,7 +2160,61 @@ document
 
 });
 
+/* =========================
+   SCROLL REVEAL ANIMATIONS
+========================= */
 
+const animatedElements = document.querySelectorAll(
+    ".product-card, .why-item, .world-box, .contact-card, .form-card"
+);
+
+const revealObserver = new IntersectionObserver(
+    function(entries, observer){
+
+        entries.forEach(function(entry){
+
+            if(entry.isIntersecting){
+
+                entry.target.classList.add("show");
+
+                observer.unobserve(entry.target);
+
+            }
+
+        });
+
+    },
+    {
+        threshold:0.15,
+        rootMargin:"0px 0px -50px 0px"
+    }
+);
+
+
+animatedElements.forEach(function(element){
+
+    revealObserver.observe(element);
+
+});
+
+
+/* ABOUT ANIMATION */
+
+const aboutImage =
+document.querySelector(".about-img");
+
+const aboutCopy =
+document.querySelector(".about-copy");
+
+if(aboutImage){
+    aboutImage.classList.add("reveal-left");
+    revealObserver.observe(aboutImage);
+}
+
+if(aboutCopy){
+    aboutCopy.classList.add("reveal-right");
+    revealObserver.observe(aboutCopy);
+}
 </script>
 
 
