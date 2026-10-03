@@ -797,7 +797,272 @@ footer{
     }
 
 }
+    
+/* =========================
+   PREMIUM SCROLL ANIMATIONS
+========================= */
 
+.reveal{
+    opacity:0;
+    transform:translateY(45px);
+    transition:
+        opacity .8s ease,
+        transform .8s cubic-bezier(.2,.7,.2,1);
+}
+
+.reveal-left{
+    opacity:0;
+    transform:translateX(-55px);
+    transition:
+        opacity .9s ease,
+        transform .9s cubic-bezier(.2,.7,.2,1);
+}
+
+.reveal-right{
+    opacity:0;
+    transform:translateX(55px);
+    transition:
+        opacity .9s ease,
+        transform .9s cubic-bezier(.2,.7,.2,1);
+}
+
+.reveal.show,
+.reveal-left.show,
+.reveal-right.show{
+    opacity:1;
+    transform:translate(0);
+}
+
+
+/* HERO ANIMATION */
+
+.hero-content{
+    animation:heroContentIn 1s cubic-bezier(.2,.7,.2,1) both;
+}
+
+.hero .eyebrow{
+    animation:heroFade .8s ease .15s both;
+}
+
+.hero h1{
+    animation:heroFadeUp .9s ease .25s both;
+}
+
+.hero h2{
+    animation:heroFadeUp .9s ease .38s both;
+}
+
+.hero p{
+    animation:heroFadeUp .9s ease .5s both;
+}
+
+.hero .buttons{
+    animation:heroFadeUp .9s ease .62s both;
+}
+
+.hero-points{
+    animation:heroFadeUp .9s ease .76s both;
+}
+
+
+@keyframes heroContentIn{
+    from{
+        opacity:0;
+        transform:translateY(25px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+@keyframes heroFade{
+    from{
+        opacity:0;
+    }
+    to{
+        opacity:1;
+    }
+}
+
+@keyframes heroFadeUp{
+    from{
+        opacity:0;
+        transform:translateY(28px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+
+/* CATEGORY CARD ANIMATION */
+
+.product-card{
+    opacity:0;
+    transform:translateY(35px) scale(.97);
+    transition:
+        opacity .65s ease,
+        transform .65s cubic-bezier(.2,.7,.2,1),
+        border-color .25s ease,
+        box-shadow .25s ease;
+}
+
+.product-card.show{
+    opacity:1;
+    transform:translateY(0) scale(1);
+}
+
+.product-card:nth-child(1){
+    transition-delay:.05s;
+}
+
+.product-card:nth-child(2){
+    transition-delay:.15s;
+}
+
+.product-card:nth-child(3){
+    transition-delay:.25s;
+}
+
+.product-card:nth-child(4){
+    transition-delay:.35s;
+}
+
+.product-card:nth-child(5){
+    transition-delay:.45s;
+}
+
+
+/* IMAGE ZOOM */
+
+.product-card img{
+    transition:transform .6s ease;
+}
+
+.product-card:hover img{
+    transform:scale(1.06);
+}
+
+
+/* ABOUT */
+
+.about-img{
+    transition:
+        transform 1s ease,
+        opacity 1s ease;
+}
+
+
+/* WHY CARDS */
+
+.why-item{
+    opacity:0;
+    transform:translateY(35px);
+    transition:
+        opacity .7s ease,
+        transform .7s cubic-bezier(.2,.7,.2,1),
+        box-shadow .35s ease;
+    animation:none;
+}
+
+.why-item.show{
+    opacity:1;
+    transform:translateY(0);
+}
+
+.why-item:nth-child(1){
+    transition-delay:.05s;
+}
+
+.why-item:nth-child(2){
+    transition-delay:.15s;
+}
+
+.why-item:nth-child(3){
+    transition-delay:.25s;
+}
+
+.why-item:nth-child(4){
+    transition-delay:.35s;
+}
+
+
+/* WORLD BOXES */
+
+.world-box{
+    opacity:0;
+    transform:translateY(25px);
+    transition:
+        opacity .65s ease,
+        transform .65s ease,
+        border-color .25s ease;
+}
+
+.world-box.show{
+    opacity:1;
+    transform:translateY(0);
+}
+
+.world-box:nth-child(1){
+    transition-delay:.05s;
+}
+
+.world-box:nth-child(2){
+    transition-delay:.18s;
+}
+
+.world-box:nth-child(3){
+    transition-delay:.31s;
+}
+
+
+/* CONTACT */
+
+.contact-card,
+.form-card{
+    opacity:0;
+    transform:translateY(35px);
+    transition:
+        opacity .8s ease,
+        transform .8s cubic-bezier(.2,.7,.2,1);
+}
+
+.contact-card.show,
+.form-card.show{
+    opacity:1;
+    transform:translateY(0);
+}
+
+
+/* BUTTON MICRO ANIMATION */
+
+.btn{
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease,
+        background .25s ease;
+}
+
+.btn:hover{
+    transform:translateY(-3px);
+    box-shadow:0 10px 25px rgba(0,135,255,.18);
+}
+
+
+/* REDUCED MOTION */
+
+@media(prefers-reduced-motion:reduce){
+
+    *,
+    *::before,
+    *::after{
+        animation:none !important;
+        transition:none !important;
+    }
+
+}
 </style>
 
 </head>
