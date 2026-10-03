@@ -4,6 +4,7 @@
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <link rel="icon" type="image/png" href="favicon.png">
 
 <title>Product | Trade Hub</title>
@@ -16,69 +17,678 @@
   padding:0;
 }
 
+:root{
+  --bg:#050c16;
+  --bg2:#081525;
+  --card:#0b1b2d;
+  --card2:#10243a;
+  --blue:#168cff;
+  --blue2:#55b4ff;
+  --text:#f5f9ff;
+  --muted:#91a7bb;
+  --border:rgba(255,255,255,.09);
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
 body{
-  font-family:Arial, Helvetica, sans-serif;
-  background:#07111f;
-  color:white;
+  font-family:Arial,Helvetica,sans-serif;
+  background:
+    radial-gradient(circle at 15% 10%,rgba(22,140,255,.12),transparent 30%),
+    radial-gradient(circle at 85% 40%,rgba(22,140,255,.08),transparent 30%),
+    var(--bg);
+  color:var(--text);
+  min-height:100vh;
+}
+
+a{
+  color:inherit;
 }
 
 .container{
-  max-width:1100px;
+  width:min(1180px,92%);
   margin:auto;
-  padding:50px 25px;
 }
 
-.product-box{
-  background:#10243a;
-  border-radius:15px;
-  padding:30px;
+
+/* ================= HEADER ================= */
+
+header{
+  position:sticky;
+  top:0;
+  z-index:50;
+  background:rgba(5,12,22,.82);
+  backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--border);
+}
+
+.nav{
+  min-height:78px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.logo{
+  text-decoration:none;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-size:22px;
+  font-weight:900;
+  letter-spacing:.3px;
+}
+
+.logo-mark{
+  width:38px;
+  height:38px;
+  border:1px solid rgba(22,140,255,.5);
+  border-radius:12px;
   display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:35px;
+  place-items:center;
+  color:var(--blue2);
+  font-size:23px;
+  background:rgba(22,140,255,.08);
+  box-shadow:0 0 25px rgba(22,140,255,.12);
+}
+
+.hub{
+  color:var(--blue);
+}
+
+.logo small{
+  display:block;
+  color:#71879b;
+  font-size:8px;
+  letter-spacing:2.2px;
+  margin-top:3px;
+}
+
+
+/* ================= PAGE ================= */
+
+.page{
+  padding:45px 0 100px;
+}
+
+.back{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  text-decoration:none;
+  color:#9db3c8;
+  font-size:14px;
+  font-weight:700;
+  margin-bottom:28px;
+  transition:.2s;
+}
+
+.back:hover{
+  color:#fff;
+  transform:translateX(-3px);
+}
+
+
+/* ================= PRODUCT ================= */
+
+.product-box{
+  position:relative;
+  display:grid;
+  grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);
+  gap:55px;
+  padding:32px;
+  border:1px solid var(--border);
+  border-radius:30px;
+  background:
+    linear-gradient(145deg,rgba(16,36,58,.96),rgba(7,20,34,.96));
+  box-shadow:
+    0 35px 90px rgba(0,0,0,.35),
+    inset 0 1px 0 rgba(255,255,255,.035);
+  overflow:hidden;
+  animation:fadeUp .7s ease both;
+}
+
+.product-box::before{
+  content:"";
+  position:absolute;
+  width:400px;
+  height:400px;
+  background:rgba(22,140,255,.07);
+  filter:blur(80px);
+  border-radius:50%;
+  top:-250px;
+  left:-180px;
+  pointer-events:none;
+}
+
+
+/* ================= IMAGE ================= */
+
+.image-area{
+  position:relative;
+  min-width:0;
+}
+
+.image-label{
+  position:absolute;
+  z-index:3;
+  top:18px;
+  left:18px;
+  padding:8px 13px;
+  border-radius:999px;
+  background:rgba(5,12,22,.78);
+  border:1px solid rgba(255,255,255,.12);
+  backdrop-filter:blur(10px);
+  color:#dcecff;
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:1.2px;
+  text-transform:uppercase;
+}
+
+.image-wrap{
+  min-height:520px;
+  height:100%;
+  border-radius:22px;
+  background:
+    radial-gradient(circle at center,rgba(22,140,255,.10),transparent 55%),
+    #071522;
+  border:1px solid rgba(255,255,255,.08);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
 }
 
 .product-image{
   width:100%;
-  border-radius:12px;
+  height:520px;
+  object-fit:contain;
+  padding:25px;
+  transition:transform .5s ease;
+  filter:drop-shadow(0 25px 35px rgba(0,0,0,.45));
+}
+
+.image-wrap:hover .product-image{
+  transform:scale(1.045);
+}
+
+
+/* ================= DETAILS ================= */
+
+.details{
+  position:relative;
+  z-index:2;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:10px 5px;
 }
 
 .category{
-  color:#4da3ff;
-  font-size:14px;
+  display:inline-flex;
+  width:max-content;
+  align-items:center;
+  gap:7px;
+  color:#65bcff;
+  background:rgba(22,140,255,.09);
+  border:1px solid rgba(22,140,255,.22);
+  border-radius:999px;
+  padding:8px 13px;
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:1.4px;
+  text-transform:uppercase;
+}
+
+.category::before{
+  content:"";
+  width:6px;
+  height:6px;
+  background:#42aaff;
+  border-radius:50%;
+  box-shadow:0 0 10px #168cff;
 }
 
 h1{
-  margin:15px 0;
-  font-size:40px;
+  margin:18px 0 15px;
+  font-size:clamp(38px,4vw,58px);
+  line-height:1.02;
+  letter-spacing:-1.8px;
 }
 
-p{
-  color:#c5d2df;
-  line-height:1.7;
-  margin:12px 0;
+.description{
+  color:#a9bacb;
+  line-height:1.8;
+  font-size:15px;
+  max-width:560px;
+}
+
+
+/* ================= INFO CARDS ================= */
+
+.info-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-top:25px;
+}
+
+.info-card{
+  padding:18px;
+  border-radius:15px;
+  background:rgba(255,255,255,.035);
+  border:1px solid rgba(255,255,255,.07);
+}
+
+.info-label{
+  display:block;
+  color:#71899e;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
+
+.info-value{
+  font-size:20px;
+  font-weight:800;
+  color:#fff;
+}
+
+.price-value{
+  color:#5ebaff;
+}
+
+
+/* ================= TRUST ================= */
+
+.trust-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:20px;
+}
+
+.trust-item{
+  padding:8px 11px;
+  border-radius:8px;
+  background:rgba(255,255,255,.025);
+  border:1px solid rgba(255,255,255,.06);
+  color:#91a8bc;
+  font-size:11px;
+}
+
+.trust-item span{
+  color:#50b3ff;
+  margin-right:4px;
+}
+
+
+/* ================= BUTTONS ================= */
+
+.actions{
+  display:flex;
+  gap:12px;
+  margin-top:28px;
 }
 
 button{
-  margin-top:20px;
-  padding:14px 25px;
-  border:none;
-  border-radius:8px;
-  background:#4da3ff;
-  color:white;
+  border:0;
   cursor:pointer;
-  font-size:16px;
+  font-family:inherit;
+}
+
+.primary-btn,
+.secondary-btn{
+  min-height:52px;
+  padding:0 23px;
+  border-radius:13px;
+  font-size:14px;
+  font-weight:800;
+  transition:.25s;
+}
+
+.primary-btn{
+  flex:1;
+  color:#fff;
+  background:linear-gradient(135deg,#168cff,#0068c9);
+  box-shadow:0 12px 30px rgba(22,140,255,.2);
+}
+
+.primary-btn:hover{
+  transform:translateY(-3px);
+  box-shadow:0 17px 35px rgba(22,140,255,.3);
+}
+
+.secondary-btn{
+  background:rgba(255,255,255,.045);
+  color:#dce8f3;
+  border:1px solid rgba(255,255,255,.10);
+}
+
+.secondary-btn:hover{
+  background:rgba(255,255,255,.08);
+  transform:translateY(-3px);
 }
 
 
-@media(max-width:700px){
+/* ================= WHOLESALE SECTION ================= */
 
-.product-box{
-grid-template-columns:1fr;
+.wholesale{
+  margin-top:25px;
+  padding:28px;
+  border:1px solid var(--border);
+  border-radius:24px;
+  background:linear-gradient(145deg,#0b1b2d,#081522);
+  animation:fadeUp .8s ease both;
 }
 
-h1{
-font-size:30px;
+.section-title{
+  font-size:22px;
+  margin-bottom:8px;
 }
+
+.section-text{
+  color:#849aae;
+  line-height:1.7;
+  font-size:14px;
+}
+
+.benefits{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+  margin-top:22px;
+}
+
+.benefit{
+  padding:18px;
+  border-radius:15px;
+  background:rgba(255,255,255,.025);
+  border:1px solid rgba(255,255,255,.06);
+}
+
+.benefit-icon{
+  font-size:22px;
+  margin-bottom:10px;
+}
+
+.benefit strong{
+  display:block;
+  font-size:13px;
+  margin-bottom:5px;
+}
+
+.benefit span{
+  color:#72889d;
+  font-size:11px;
+  line-height:1.5;
+}
+
+
+/* ================= ORDER FORM ================= */
+
+.order-panel{
+  display:none;
+  margin-top:28px;
+  padding:26px;
+  border-radius:22px;
+  background:#071522;
+  border:1px solid rgba(22,140,255,.25);
+  animation:fadeUp .4s ease both;
+}
+
+.order-panel.show{
+  display:block;
+}
+
+.order-heading{
+  margin-bottom:5px;
+  font-size:24px;
+}
+
+.order-subtitle{
+  color:#8197aa;
+  font-size:13px;
+  margin-bottom:20px;
+  line-height:1.6;
+}
+
+.form-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.form-group{
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+}
+
+.form-group.full{
+  grid-column:1/-1;
+}
+
+.form-group label{
+  color:#8198ad;
+  font-size:10px;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:1.2px;
+}
+
+input,
+textarea{
+  width:100%;
+  border:1px solid rgba(255,255,255,.09);
+  outline:none;
+  background:#0b1c2d;
+  color:#fff;
+  border-radius:11px;
+  padding:13px 14px;
+  font-family:inherit;
+  font-size:13px;
+  transition:.2s;
+}
+
+input{
+  height:47px;
+}
+
+textarea{
+  min-height:90px;
+  resize:vertical;
+}
+
+input:focus,
+textarea:focus{
+  border-color:#168cff;
+  box-shadow:0 0 0 3px rgba(22,140,255,.08);
+}
+
+.confirm-btn{
+  width:100%;
+  height:50px;
+  margin-top:15px;
+  border-radius:11px;
+  background:linear-gradient(135deg,#168cff,#0068c9);
+  color:#fff;
+  font-size:14px;
+  font-weight:800;
+  box-shadow:0 10px 25px rgba(22,140,255,.18);
+  transition:.25s;
+}
+
+.confirm-btn:hover{
+  transform:translateY(-2px);
+}
+
+
+/* ================= LOADING / ERROR ================= */
+
+.loading{
+  text-align:center;
+  padding:120px 20px;
+  color:#8298ac;
+}
+
+.loader{
+  width:42px;
+  height:42px;
+  border:3px solid rgba(255,255,255,.08);
+  border-top-color:#168cff;
+  border-radius:50%;
+  margin:0 auto 18px;
+  animation:spin .8s linear infinite;
+}
+
+.error-box{
+  padding:50px;
+  text-align:center;
+  background:#0b1b2d;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:22px;
+}
+
+.error-box h2{
+  margin-bottom:10px;
+}
+
+.error-box p{
+  color:#8ca2b5;
+  margin-bottom:20px;
+}
+
+
+/* ================= ANIMATIONS ================= */
+
+@keyframes fadeUp{
+  from{
+    opacity:0;
+    transform:translateY(18px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+@keyframes spin{
+  to{
+    transform:rotate(360deg);
+  }
+}
+
+
+/* ================= MOBILE ================= */
+
+@media(max-width:850px){
+
+  .product-box{
+    grid-template-columns:1fr;
+    gap:28px;
+    padding:20px;
+    border-radius:23px;
+  }
+
+  .image-wrap{
+    min-height:400px;
+  }
+
+  .product-image{
+    height:400px;
+  }
+
+  .details{
+    padding:5px;
+  }
+
+  h1{
+    font-size:40px;
+  }
+
+  .benefits{
+    grid-template-columns:1fr 1fr;
+  }
+
+}
+
+@media(max-width:600px){
+
+  .page{
+    padding:28px 0 70px;
+  }
+
+  .nav{
+    min-height:68px;
+  }
+
+  .logo{
+    font-size:18px;
+  }
+
+  .logo-mark{
+    width:34px;
+    height:34px;
+  }
+
+  .logo small{
+    font-size:6px;
+  }
+
+  .product-box{
+    padding:13px;
+    gap:22px;
+  }
+
+  .image-wrap{
+    min-height:330px;
+    border-radius:17px;
+  }
+
+  .product-image{
+    height:330px;
+    padding:15px;
+  }
+
+  h1{
+    font-size:34px;
+    letter-spacing:-1px;
+  }
+
+  .info-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .actions{
+    flex-direction:column;
+  }
+
+  .primary-btn,
+  .secondary-btn{
+    width:100%;
+  }
+
+  .benefits{
+    grid-template-columns:1fr;
+  }
+
+  .wholesale{
+    padding:21px;
+  }
+
+  .form-grid{
+    grid-template-columns:1fr;
+  }
+
+  .form-group.full{
+    grid-column:auto;
+  }
 
 }
 
@@ -86,13 +696,43 @@ font-size:30px;
 
 </head>
 
-
 <body>
 
 
+<header>
+
+<div class="container nav">
+
+<a href="index.html" class="logo">
+
+<span class="logo-mark">◎</span>
+
+<span>
+TRADE.<span class="hub">HUB</span>
+<small>WHOLESALE • GLOBAL SUPPLY</small>
+</span>
+
+</a>
+
+</div>
+
+</header>
+
+
+<main class="page">
+
 <div class="container">
 
+<a href="javascript:history.back()" class="back">
+← Back to Products
+</a>
+
+
 <div id="productBox">
+
+<div class="loading">
+
+<div class="loader"></div>
 
 Loading product...
 
@@ -100,6 +740,9 @@ Loading product...
 
 </div>
 
+</div>
+
+</main>
 
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -107,10 +750,8 @@ Loading product...
 
 <script>
 
-
 const SUPABASE_URL =
 "https://cgclqejzzlrxkuksqgav.supabase.co";
-
 
 const SUPABASE_KEY =
 "sb_publishable_BI34HY1C7-HR9ZzDrXuabQ_QtTRwbBx";
@@ -123,10 +764,9 @@ SUPABASE_KEY
 );
 
 
-
 function escapeHTML(value){
 
-return String(value)
+return String(value ?? "")
 .replace(/&/g,"&amp;")
 .replace(/</g,"&lt;")
 .replace(/>/g,"&gt;")
@@ -136,19 +776,39 @@ return String(value)
 }
 
 
-
 async function loadProduct(){
-
 
 const params =
 new URLSearchParams(
 window.location.search
 );
 
-
 const id =
 params.get("id");
 
+
+if(!id){
+
+document.getElementById("productBox").innerHTML = `
+
+<div class="error-box">
+
+<h2>Product Not Found</h2>
+
+<p>No product was selected.</p>
+
+<a href="index.html" class="primary-btn"
+style="display:inline-flex;align-items:center;justify-content:center;text-decoration:none;">
+Back To Trade.Hub
+</a>
+
+</div>
+
+`;
+
+return;
+
+}
 
 
 const {data,error}=await supabaseClient
@@ -158,190 +818,560 @@ const {data,error}=await supabaseClient
 .single();
 
 
+if(error || !data){
 
-if(error){
+document.getElementById("productBox").innerHTML = `
 
-document.getElementById("productBox").innerHTML=
-"Product not found";
+<div class="error-box">
+
+<h2>Product Not Found</h2>
+
+<p>We couldn't find this product right now.</p>
+
+<a href="index.html" class="primary-btn"
+style="display:inline-flex;align-items:center;justify-content:center;text-decoration:none;">
+Back To Trade.Hub
+</a>
+
+</div>
+
+`;
 
 return;
 
 }
 
 
+document.title =
+escapeHTML(data.title || "Product") +
+" | Trade.Hub";
 
-document.getElementById("productBox").innerHTML=`
+
+document.getElementById("productBox").innerHTML = `
+
 
 <div class="product-box">
 
 
-<div>
+<div class="image-area">
 
-<img 
+<div class="image-label">
+Trade.Hub Wholesale
+</div>
+
+<div class="image-wrap">
+
+<img
 class="product-image"
-src="${escapeHTML(data.image_url)}"
+src="${escapeHTML(data.image_url || "")}"
+alt="${escapeHTML(data.title || "Product")}"
+>
+
+</div>
+
+</div>
+
+
+
+<div class="details">
+
+
+<span class="category">
+${escapeHTML(data.category || "Wholesale Product")}
+</span>
+
+
+<h1>
+${escapeHTML(data.title || "Untitled Product")}
+</h1>
+
+
+<p class="description">
+${escapeHTML(
+data.description ||
+"Premium wholesale product available through Trade.Hub."
+)}
+</p>
+
+
+
+<div class="info-grid">
+
+
+<div class="info-card">
+
+<span class="info-label">
+Price Per Piece
+</span>
+
+<div class="info-value price-value">
+
+${data.price_per_piece != null && data.price_per_piece !== ""
+? escapeHTML(data.price_per_piece)
+: "Contact"}
+
+</div>
+
+</div>
+
+
+
+<div class="info-card">
+
+<span class="info-label">
+Minimum Order
+</span>
+
+<div class="info-value">
+
+${data.minimum_quantity != null && data.minimum_quantity !== ""
+? escapeHTML(data.minimum_quantity)
+: "Contact"}
+
+</div>
+
+</div>
+
+
+</div>
+
+
+
+<div class="trust-row">
+
+<div class="trust-item">
+<span>✓</span> Wholesale Supply
+</div>
+
+<div class="trust-item">
+<span>✓</span> Bulk Orders
+</div>
+
+<div class="trust-item">
+<span>✓</span> Direct Enquiry
+</div>
+
+</div>
+
+
+
+<div class="actions">
+
+<button
+class="primary-btn"
+onclick="showOrderForm()">
+Order Now →
+</button>
+
+<button
+class="secondary-btn"
+onclick="showOrderForm()">
+Add To Cart
+</button>
+
+</div>
+
+
+
+<div id="orderForm" class="order-panel">
+
+
+<h2 class="order-heading">
+Place Your Order
+</h2>
+
+<p class="order-subtitle">
+Send us your details and order requirements. Our team will review your request.
+</p>
+
+
+<div class="form-grid">
+
+
+<div class="form-group">
+
+<label>Full Name *</label>
+
+<input
+id="customerName"
+placeholder="Your full name"
 >
 
 </div>
 
 
-<div>
+
+<div class="form-group">
+
+<label>Country *</label>
+
+<input
+id="country"
+placeholder="Country"
+>
+
+</div>
 
 
-<span class="category">
-${escapeHTML(data.category)}
+
+<div class="form-group">
+
+<label>City *</label>
+
+<input
+id="city"
+placeholder="City"
+>
+
+</div>
+
+
+
+<div class="form-group">
+
+<label>WhatsApp *</label>
+
+<input
+id="whatsapp"
+placeholder="WhatsApp number"
+>
+
+</div>
+
+
+
+<div class="form-group">
+
+<label>Email</label>
+
+<input
+id="email"
+type="email"
+placeholder="Email address"
+>
+
+</div>
+
+
+
+<div class="form-group">
+
+<label>Quantity *</label>
+
+<input
+id="quantity"
+type="number"
+min="1"
+placeholder="Required quantity"
+>
+
+</div>
+
+
+
+<div class="form-group full">
+
+<label>Full Address *</label>
+
+<textarea
+id="address"
+placeholder="Enter your complete delivery address"
+></textarea>
+
+</div>
+
+
+
+<div class="form-group full">
+
+<label>Message</label>
+
+<textarea
+id="message"
+placeholder="Any special requirements or questions?"
+></textarea>
+
+</div>
+
+
+</div>
+
+
+<button
+class="confirm-btn"
+onclick="placeOrder()">
+
+Confirm Order
+
+</button>
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+
+<div class="wholesale">
+
+
+<h2 class="section-title">
+Why Buy Through Trade.Hub?
+</h2>
+
+
+<p class="section-text">
+Trade.Hub connects businesses with wholesale products and suppliers.
+Submit your requirements and our team can assist with your order enquiry.
+</p>
+
+
+
+<div class="benefits">
+
+
+<div class="benefit">
+
+<div class="benefit-icon">📦</div>
+
+<strong>Wholesale Supply</strong>
+
+<span>
+Products designed for business and bulk purchasing.
 </span>
 
-
-<h1>
-${escapeHTML(data.title)}
-</h1>
+</div>
 
 
-<p>
-${escapeHTML(data.description)}
-</p>
 
+<div class="benefit">
 
-<p>
-<strong>Price Per Piece:</strong>
-${escapeHTML(data.price_per_piece || "Contact")}
-</p>
+<div class="benefit-icon">💼</div>
 
+<strong>Bulk Orders</strong>
 
-<p>
-<strong>Minimum Quantity:</strong>
-${escapeHTML(data.minimum_quantity || "Contact")}
-</p>
-
-
-<button onclick="showOrderForm()">
-Add To Cart
-</button>
-
-
-<button onclick="showOrderForm()">
-Order Now
-</button>
-
-<div id="orderForm" style="display:none; margin-top:30px;">
-
-<h2>Place Your Order</h2>
-
-<input id="customerName" placeholder="Full Name">
-
-<input id="country" placeholder="Country">
-
-<input id="city" placeholder="City">
-
-<input id="whatsapp" placeholder="WhatsApp Number">
-
-<input id="email" placeholder="Email">
-
-<textarea id="address" placeholder="Full Address"></textarea>
-
-<input id="quantity" type="number" placeholder="Quantity">
-
-<textarea id="message" placeholder="Message"></textarea>
-
-<button onclick="placeOrder()">
-Confirm Order
-</button>
+<span>
+Suitable for retailers, resellers and businesses.
+</span>
 
 </div>
+
+
+
+<div class="benefit">
+
+<div class="benefit-icon">🌍</div>
+
+<strong>Global Reach</strong>
+
+<span>
+Connect with wholesale opportunities across markets.
+</span>
+
 </div>
+
+
+
+<div class="benefit">
+
+<div class="benefit-icon">🤝</div>
+
+<strong>Direct Enquiry</strong>
+
+<span>
+Send your requirements directly through the order form.
+</span>
+
 </div>
+
+
+</div>
+
+</div>
+
 
 `;
 
 }
 
+
 function showOrderForm(){
 
-    document.getElementById("orderForm").style.display = "block";
+const form =
+document.getElementById("orderForm");
+
+if(!form) return;
+
+form.classList.add("show");
+
+setTimeout(()=>{
+
+form.scrollIntoView({
+behavior:"smooth",
+block:"center"
+});
+
+},100);
 
 }
+
 
 async function placeOrder(){
 
-    const name =
-        document.getElementById("customerName").value.trim();
+const name =
+document.getElementById("customerName").value.trim();
 
-    const country =
-        document.getElementById("country").value.trim();
+const country =
+document.getElementById("country").value.trim();
 
-    const city =
-        document.getElementById("city").value.trim();
+const city =
+document.getElementById("city").value.trim();
 
-    const whatsapp =
-        document.getElementById("whatsapp").value.trim();
+const whatsapp =
+document.getElementById("whatsapp").value.trim();
 
-    const email =
-        document.getElementById("email").value.trim();
+const email =
+document.getElementById("email").value.trim();
 
-    const address =
-        document.getElementById("address").value.trim();
+const address =
+document.getElementById("address").value.trim();
 
-    const quantity =
-        document.getElementById("quantity").value;
+const quantity =
+document.getElementById("quantity").value;
 
-    const message =
-        document.getElementById("message").value.trim();
+const message =
+document.getElementById("message").value.trim();
 
-    if (!name || !country || !city || !whatsapp || !address || !quantity) {
-        alert("Please fill in all required fields.");
-        return;
-    }
 
-    const params =
-        new URLSearchParams(window.location.search);
+if(
+!name ||
+!country ||
+!city ||
+!whatsapp ||
+!address ||
+!quantity
+){
 
-    const productId =
-        params.get("id");
+alert("Please fill in all required fields.");
 
-    const {
-        data: product,
-        error: productError
-    } = await supabaseClient
-        .from("posts")
-        .select("*")
-        .eq("id", productId)
-        .single();
-
-    if (productError) {
-        console.error(productError);
-        alert("Unable to find this product.");
-        return;
-    }
-
-    const { error } =
-        await supabaseClient
-        .from("orders")
-        .insert([
-            {
-                product_id: product.id,
-                product_name: product.title,
-                customer_name: name,
-                country: country,
-                city: city,
-                whatsapp: whatsapp,
-                email: email,
-                address: address,
-                quantity: Number(quantity),
-                message: message,
-                status: "Pending"
-            }
-        ]);
-
-    if (error) {
-        console.error(error);
-        alert("Unable to place order. Please try again.");
-        return;
-    }
-
-    alert("Order placed successfully!");
+return;
 
 }
+
+
+const params =
+new URLSearchParams(
+window.location.search
+);
+
+const productId =
+params.get("id");
+
+
+const {
+data: product,
+error: productError
+} = await supabaseClient
+.from("posts")
+.select("*")
+.eq("id",productId)
+.single();
+
+
+if(productError){
+
+console.error(productError);
+
+alert(
+"Unable to find this product."
+);
+
+return;
+
+}
+
+
+const {error} =
+await supabaseClient
+.from("orders")
+.insert([
+
+{
+
+product_id:
+product.id,
+
+product_name:
+product.title,
+
+customer_name:
+name,
+
+country:
+country,
+
+city:
+city,
+
+whatsapp:
+whatsapp,
+
+email:
+email,
+
+address:
+address,
+
+quantity:
+Number(quantity),
+
+message:
+message,
+
+status:
+"Pending"
+
+}
+
+]);
+
+
+if(error){
+
+console.error(error);
+
+alert(
+"Unable to place order. Please try again."
+);
+
+return;
+
+}
+
+
+alert(
+"Order placed successfully!"
+);
+
+
+/* Clear form after successful order */
+
+document.getElementById("customerName").value="";
+document.getElementById("country").value="";
+document.getElementById("city").value="";
+document.getElementById("whatsapp").value="";
+document.getElementById("email").value="";
+document.getElementById("address").value="";
+document.getElementById("quantity").value="";
+document.getElementById("message").value="";
+
+
+}
+
 
 loadProduct();
 
