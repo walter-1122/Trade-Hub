@@ -1020,128 +1020,62 @@ Browse our available product categories and contact us for wholesale requirement
 
 <div class="products-grid">
 
-
-<div class="product-card reveal reveal-scale reveal-delay-1" 
-onclick="window.location.href='perfumes.html'">
-
+<div class="product-card reveal reveal-scale reveal-delay-1"
+onclick="openCategory('perfumes')">
 <img
 src="https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=700&q=80"
 alt="Perfumes">
-
 <div class="product-info">
-
-<h3>
-Perfumes
-<span class="arrow">→</span>
-</h3>
-
-<p>
-Men's & Women's fragrances
-</p>
-
+<h3>Perfumes <span class="arrow">→</span></h3>
+<p>Men's & Women's fragrances</p>
 </div>
-
 </div>
-
-
 
 <div class="product-card reveal reveal-scale reveal-delay-2"
-onclick="openCategory('skincare')">
-
+onclick="openCategory('shoes')">
 <img
-src="https://images.unsplash.com/photo-1556228578-8c89e6adf883?auto=format&fit=crop&w=700&q=80"
-alt="Skincare">
-
+src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=900&q=85"
+alt="Shoes">
 <div class="product-info">
-
-<h3>
-Skincare
-<span class="arrow">→</span>
-</h3>
-
-<p>
-Skincare & personal care products
-</p>
-
+<h3>Shoes <span class="arrow">→</span></h3>
+<p>Formal shoes & sneakers</p>
 </div>
-
 </div>
-
-
 
 <div class="product-card reveal reveal-scale reveal-delay-3"
-onclick="openCategory('soaps')">
-
+onclick="openCategory('beauty')">
 <img
-src="https://images.unsplash.com/photo-1607006483224-4e5f7f2d7c4c?auto=format&fit=crop&w=700&q=80"
-alt="Soaps">
-
+src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=900&q=85"
+alt="Authentic Beauty">
 <div class="product-info">
-
-<h3>
-Soaps
-<span class="arrow">→</span>
-</h3>
-
-<p>
-Bath and beauty soaps
-</p>
-
+<h3>Authentic Beauty <span class="arrow">→</span></h3>
+<p>Beauty, skincare & care products</p>
 </div>
-
 </div>
-
-
 
 <div class="product-card reveal reveal-scale reveal-delay-4"
-onclick="openCategory('socks')">
-
+onclick="openCategory('bags')">
 <img
-src="https://images.unsplash.com/photo-1586350977771-b3b0abd50c82?auto=format&fit=crop&w=700&q=80"
-alt="Socks">
-
+src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=900&q=85"
+alt="Premium Bags">
 <div class="product-info">
-
-<h3>
-Socks
-<span class="arrow">→</span>
-</h3>
-
-<p>
-Wholesale apparel essentials
-</p>
-
+<h3>Premium Bags <span class="arrow">→</span></h3>
+<p>Handbags, backpacks & travel bags</p>
 </div>
-
 </div>
-
-
 
 <div class="product-card reveal reveal-scale reveal-delay-4"
-onclick="openCategory('personal-care')">
-
+onclick="openCategory('trousers')">
 <img
-src="https://images.unsplash.com/photo-1608248597279-f99d160bfcbc?auto=format&fit=crop&w=700&q=80"
-alt="Personal Care">
-
+src="https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&w=900&q=85"
+alt="Trouser Collection">
 <div class="product-info">
-
-<h3>
-Personal Care
-<span class="arrow">→</span>
-</h3>
-
-<p>
-Daily care essentials
-</p>
-
+<h3>Trouser Collection <span class="arrow">→</span></h3>
+<p>Junior & adult collections</p>
+</div>
 </div>
 
 </div>
-
-
-</div>
-
 
 
 <!-- =========================
@@ -1703,174 +1637,123 @@ function toggleMenu(){
 const categories = {
 
     perfumes: {
-
         title: "Perfumes",
-
-        description:
-        "Explore our perfume catalogue and select the fragrance category you are interested in.",
-
+        description: "Explore our perfume catalogue and select the fragrance category you are interested in.",
         items: [
-
             {
                 icon: "🌹",
                 title: "Men's Fragrances",
                 description: "Wholesale fragrances for men."
             },
-
             {
                 icon: "🌸",
                 title: "Women's Fragrances",
                 description: "Wholesale fragrances for women."
             },
-
             {
                 icon: "🖤",
                 title: "Oud",
                 description: "Oud and premium fragrance products."
             },
-
             {
                 icon: "✨",
                 title: "Attars",
                 description: "Traditional and concentrated fragrances."
             },
-
             {
                 icon: "💨",
                 title: "Body Sprays",
                 description: "Wholesale body spray products."
             }
-
         ]
-
     },
 
-
-    skincare: {
-
-        title: "Skincare",
-
-        description:
-        "Browse skincare categories for wholesale business requirements.",
-
+    shoes: {
+        title: "Shoes",
+        description: "Explore our wholesale shoe collection.",
         items: [
+            {
+                icon: "👞",
+                title: "Formal Shoes",
+                description: "Wholesale formal shoes for business and retail."
+            },
+            {
+                icon: "👟",
+                title: "Sneakers",
+                description: "Wholesale sneakers and casual footwear."
+            }
+        ]
+    },
 
+    beauty: {
+        title: "Authentic Beauty",
+        description: "Explore authentic beauty and personal care categories.",
+        items: [
+            {
+                icon: "💄",
+                title: "Makeup",
+                description: "Beauty and makeup products for wholesale."
+            },
             {
                 icon: "✨",
-                title: "Face Care",
-                description: "Face care and beauty products."
+                title: "Skincare",
+                description: "Skincare products for wholesale business requirements."
             },
-
-            {
-                icon: "🧴",
-                title: "Body Care",
-                description: "Body care products for wholesale."
-            },
-
             {
                 icon: "💆",
                 title: "Hair Care",
                 description: "Hair care and treatment products."
-            }
-
-        ]
-
-    },
-
-
-    soaps: {
-
-        title: "Soaps",
-
-        description:
-        "Explore our soap product categories.",
-
-        items: [
-
-            {
-                icon: "🧼",
-                title: "Bath Soaps",
-                description: "Everyday bath and cleansing soaps."
             },
-
-            {
-                icon: "🌸",
-                title: "Beauty Soaps",
-                description: "Beauty and personal care soaps."
-            },
-
-            {
-                icon: "🫧",
-                title: "Liquid Soaps",
-                description: "Liquid soap products."
-            }
-
-        ]
-
-    },
-
-
-    socks: {
-
-        title: "Socks",
-
-        description:
-        "Explore wholesale socks and apparel categories.",
-
-        items: [
-
-            {
-                icon: "🧦",
-                title: "Men's Socks",
-                description: "Wholesale socks for men."
-            },
-
-            {
-                icon: "🧦",
-                title: "Women's Socks",
-                description: "Wholesale socks for women."
-            },
-
-            {
-                icon: "🧦",
-                title: "Kids Socks",
-                description: "Wholesale socks for kids."
-            }
-
-        ]
-
-    },
-
-
-    "personal-care": {
-
-        title: "Personal Care",
-
-        description:
-        "Explore personal care product categories.",
-
-        items: [
-
-            {
-                icon: "💇",
-                title: "Hair Care",
-                description: "Hair care and grooming products."
-            },
-
-            {
-                icon: "🪥",
-                title: "Oral Care",
-                description: "Oral hygiene products."
-            },
-
             {
                 icon: "🧴",
                 title: "Body Care",
-                description: "Daily body care essentials."
+                description: "Daily body care and beauty essentials."
             }
-
         ]
+    },
 
+    bags: {
+        title: "Premium Bags",
+        description: "Explore our premium wholesale bag collection.",
+        items: [
+            {
+                icon: "👜",
+                title: "Handbags",
+                description: "Premium handbags for wholesale buyers."
+            },
+            {
+                icon: "🎒",
+                title: "Backpacks",
+                description: "Wholesale backpacks for everyday and business use."
+            },
+            {
+                icon: "💼",
+                title: "Business Bags",
+                description: "Professional bags for business and office use."
+            },
+            {
+                icon: "🧳",
+                title: "Travel Bags",
+                description: "Travel bags and luggage essentials."
+            }
+        ]
+    },
+
+    trousers: {
+        title: "Trouser Collection",
+        description: "Explore our junior and adult trouser collections.",
+        items: [
+            {
+                icon: "👖",
+                title: "Junior Collection",
+                description: "Wholesale trousers for junior customers."
+            },
+            {
+                icon: "👖",
+                title: "Adult Collection",
+                description: "Wholesale trousers for adult customers."
+            }
+        ]
     }
 
 };
@@ -2176,4 +2059,6 @@ if ("IntersectionObserver" in window) {
 </body>
 
 </html>
+
+
 
