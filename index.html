@@ -2160,60 +2160,56 @@ document
 
 });
 
-/* =========================
-   SCROLL REVEAL ANIMATIONS
-========================= */
-
-const animatedElements = document.querySelectorAll(
+const animatedItems = document.querySelectorAll(
     ".product-card, .why-item, .world-box, .contact-card, .form-card"
 );
 
-const revealObserver = new IntersectionObserver(
-    function(entries, observer){
+const repeatObserver = new IntersectionObserver(
+    (entries) => {
+        entries.forEach((entry) => {
 
-        entries.forEach(function(entry){
-
-            if(entry.isIntersecting){
-
+            if (entry.isIntersecting) {
                 entry.target.classList.add("show");
-
-                observer.unobserve(entry.target);
-
+            } else {
+                entry.target.classList.remove("show");
             }
 
         });
-
     },
     {
-        threshold:0.15,
-        rootMargin:"0px 0px -50px 0px"
+        threshold: 0.15
     }
 );
 
-
-animatedElements.forEach(function(element){
-
-    revealObserver.observe(element);
-
+animatedItems.forEach((item) => {
+    repeatObserver.observe(item);
 });
 
 
-/* ABOUT ANIMATION */
+const aboutSection = document.querySelector(".about");
 
-const aboutImage =
-document.querySelector(".about-img");
+if (aboutSection) {
 
-const aboutCopy =
-document.querySelector(".about-copy");
+    const aboutObserver = new IntersectionObserver(
+        (entries) => {
 
-if(aboutImage){
-    aboutImage.classList.add("reveal-left");
-    revealObserver.observe(aboutImage);
-}
+            entries.forEach((entry) => {
 
-if(aboutCopy){
-    aboutCopy.classList.add("reveal-right");
-    revealObserver.observe(aboutCopy);
+                if (entry.isIntersecting) {
+                    aboutSection.classList.add("about-show");
+                } else {
+                    aboutSection.classList.remove("about-show");
+                }
+
+            });
+
+        },
+        {
+            threshold: 0.2
+        }
+    );
+
+    aboutObserver.observe(aboutSection);
 }
 </script>
 
