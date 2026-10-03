@@ -445,6 +445,68 @@ section{
 
 
 /* =========================
+   POST PRODUCT GRID
+========================= */
+
+.post-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:16px;
+}
+
+.post-card{
+    border:1px solid #16466d;
+    border-radius:12px;
+    overflow:hidden;
+    background:#0b2036;
+    transition:.25s ease;
+}
+
+.post-card:hover{
+    border-color:#0787ff;
+    transform:translateY(-4px);
+}
+
+.post-card img{
+    height:210px;
+    object-fit:cover;
+}
+
+.post-card-body{
+    padding:18px;
+}
+
+.post-card h5{
+    font-size:18px;
+    margin-bottom:6px;
+}
+
+.post-card p{
+    color:#a9b8c9;
+    font-size:13px;
+    margin-bottom:10px;
+}
+
+.post-price{
+    color:#27a1ff;
+    font-weight:bold;
+    margin-bottom:12px;
+}
+
+.post-card .btn{
+    width:100%;
+    justify-content:center;
+}
+
+@media(max-width:900px){
+    .post-grid{grid-template-columns:repeat(2,1fr);}
+}
+
+@media(max-width:600px){
+    .post-grid{grid-template-columns:1fr;}
+}
+
+/* =========================
    ABOUT
 ========================= */
 
@@ -1022,163 +1084,66 @@ Browse our available product categories and contact us for wholesale requirement
 
 <div class="product-card reveal reveal-scale reveal-delay-1"
 onclick="openCategory('perfumes')">
-<img
-src="https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=700&q=80"
-alt="Perfumes">
-<div class="product-info">
-<h3>Perfumes <span class="arrow">→</span></h3>
-<p>Men's & Women's fragrances</p>
-</div>
+<img src="https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=700&q=80" alt="Perfumes">
+<div class="product-info"><h3>Perfumes <span class="arrow">→</span></h3><p>Men's & Women's fragrances</p></div>
 </div>
 
 <div class="product-card reveal reveal-scale reveal-delay-2"
 onclick="openCategory('shoes')">
-<img
-src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=900&q=85"
-alt="Shoes">
-<div class="product-info">
-<h3>Shoes <span class="arrow">→</span></h3>
-<p>Formal shoes & sneakers</p>
-</div>
+<img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=700&q=80" alt="Shoes">
+<div class="product-info"><h3>Shoes <span class="arrow">→</span></h3><p>Formal shoes & sneakers</p></div>
 </div>
 
 <div class="product-card reveal reveal-scale reveal-delay-3"
 onclick="openCategory('beauty')">
-<img
-src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=900&q=85"
-alt="Authentic Beauty">
-<div class="product-info">
-<h3>Authentic Beauty <span class="arrow">→</span></h3>
-<p>Beauty, skincare & care products</p>
-</div>
+<img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=700&q=80" alt="Authentic Beauty">
+<div class="product-info"><h3>Authentic Beauty <span class="arrow">→</span></h3><p>Beauty and care collections</p></div>
 </div>
 
 <div class="product-card reveal reveal-scale reveal-delay-4"
 onclick="openCategory('bags')">
-<img
-src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=900&q=85"
-alt="Premium Bags">
-<div class="product-info">
-<h3>Premium Bags <span class="arrow">→</span></h3>
-<p>Handbags, backpacks & travel bags</p>
-</div>
+<img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=700&q=80" alt="Premium Bags">
+<div class="product-info"><h3>Premium Bags <span class="arrow">→</span></h3><p>Wholesale premium bag collections</p></div>
 </div>
 
 <div class="product-card reveal reveal-scale reveal-delay-4"
 onclick="openCategory('trousers')">
-<img
-src="https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&w=900&q=85"
-alt="Trouser Collection">
-<div class="product-info">
-<h3>Trouser Collection <span class="arrow">→</span></h3>
-<p>Junior & adult collections</p>
-</div>
+<img src="https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&w=700&q=80" alt="Trouser Collection">
+<div class="product-info"><h3>Trouser Collection <span class="arrow">→</span></h3><p>Junior & Adult collections</p></div>
 </div>
 
 </div>
-
 
 <!-- =========================
      CATEGORY VIEW
 ========================= -->
 
-<div class="category-view"
-id="categoryView">
-
+<div class="category-view" id="categoryView">
 
 <div class="category-header">
-
 <div>
-
-<div class="eyebrow">
-Category
+<div class="eyebrow">Category</div>
+<h3 id="categoryTitle">Products</h3>
+<p id="categoryDescription">Choose a product category below.</p>
+</div>
+<button class="back-button" onclick="backToCategories()">← Back to Categories</button>
 </div>
 
-<h3 id="categoryTitle">
-Perfumes
-</h3>
+<div class="subcategory-grid" id="subcategoryGrid"></div>
 
-<p id="categoryDescription">
-Choose a product category below.
-</p>
-
-</div>
-
-
-<button
-class="back-button"
-onclick="backToCategories()">
-
-← Back to Categories
-
-</button>
-
-</div>
-
-
-
-<div class="subcategory-grid"
-id="subcategoryGrid">
-</div>
-
-
-
-<div class="product-browser"
-id="productBrowser">
-
-
+<div class="product-browser" id="productBrowser">
 <div class="product-browser-header">
-
-<h4 id="subcategoryTitle">
-Products
-</h4>
-
-<p>
-Wholesale products available in this category.
-</p>
-
+<h4 id="subcategoryTitle">Products</h4>
+<p id="subcategoryDescription">Wholesale products available in this category.</p>
+</div>
+<div class="post-grid" id="postGrid"></div>
 </div>
 
-
-<div class="product-message">
-
-<div class="big-icon">
-📦
 </div>
-
-<h5>
-Product Catalogue
-</h5>
-
-<p>
-Product details and availability can be added here.
-Contact Trade.Hub for current wholesale stock, quantities and pricing.
-</p>
-
-
-<a
-href="#contact"
-class="btn btn-primary"
-style="margin-top:20px;">
-
-Contact for Deal →
-
-</a>
-
-</div>
-
-
-</div>
-
-
-</div>
-
 
 </div>
 
 </section>
-
-
 
 <!-- =========================
      ABOUT
@@ -1638,126 +1603,159 @@ const categories = {
 
     perfumes: {
         title: "Perfumes",
-        description: "Explore our perfume catalogue and select the fragrance category you are interested in.",
+        description: "Choose a perfume collection to view the products posted in that category.",
         items: [
-            {
-                icon: "🌹",
-                title: "Men's Fragrances",
-                description: "Wholesale fragrances for men."
-            },
-            {
-                icon: "🌸",
-                title: "Women's Fragrances",
-                description: "Wholesale fragrances for women."
-            },
-            {
-                icon: "🖤",
-                title: "Oud",
-                description: "Oud and premium fragrance products."
-            },
-            {
-                icon: "✨",
-                title: "Attars",
-                description: "Traditional and concentrated fragrances."
-            },
-            {
-                icon: "💨",
-                title: "Body Sprays",
-                description: "Wholesale body spray products."
-            }
+            {icon:"🌹", title:"Men's Perfumes", description:"Wholesale fragrances for men."},
+            {icon:"🌸", title:"Women's Perfumes", description:"Wholesale fragrances for women."}
         ]
     },
 
     shoes: {
         title: "Shoes",
-        description: "Explore our wholesale shoe collection.",
+        description: "Choose a shoe collection to view the products posted in that category.",
         items: [
-            {
-                icon: "👞",
-                title: "Formal Shoes",
-                description: "Wholesale formal shoes for business and retail."
-            },
-            {
-                icon: "👟",
-                title: "Sneakers",
-                description: "Wholesale sneakers and casual footwear."
-            }
+            {icon:"👞", title:"Formal Shoes", description:"Formal and business footwear."},
+            {icon:"👟", title:"Sneakers", description:"Casual and lifestyle sneakers."}
         ]
     },
 
     beauty: {
         title: "Authentic Beauty",
-        description: "Explore authentic beauty and personal care categories.",
+        description: "Choose a beauty collection to view the products posted in that category.",
         items: [
-            {
-                icon: "💄",
-                title: "Makeup",
-                description: "Beauty and makeup products for wholesale."
-            },
-            {
-                icon: "✨",
-                title: "Skincare",
-                description: "Skincare products for wholesale business requirements."
-            },
-            {
-                icon: "💆",
-                title: "Hair Care",
-                description: "Hair care and treatment products."
-            },
-            {
-                icon: "🧴",
-                title: "Body Care",
-                description: "Daily body care and beauty essentials."
-            }
+            {icon:"💄", title:"Makeup", description:"Beauty and makeup products."},
+            {icon:"✨", title:"Skincare", description:"Skincare and beauty essentials."},
+            {icon:"💆", title:"Hair Care", description:"Hair care and treatment products."},
+            {icon:"🧴", title:"Body Care", description:"Daily body care essentials."}
         ]
     },
 
     bags: {
         title: "Premium Bags",
-        description: "Explore our premium wholesale bag collection.",
+        description: "Choose a bag collection to view the products posted in that category.",
         items: [
-            {
-                icon: "👜",
-                title: "Handbags",
-                description: "Premium handbags for wholesale buyers."
-            },
-            {
-                icon: "🎒",
-                title: "Backpacks",
-                description: "Wholesale backpacks for everyday and business use."
-            },
-            {
-                icon: "💼",
-                title: "Business Bags",
-                description: "Professional bags for business and office use."
-            },
-            {
-                icon: "🧳",
-                title: "Travel Bags",
-                description: "Travel bags and luggage essentials."
-            }
+            {icon:"👜", title:"Handbags", description:"Premium handbags and purses."},
+            {icon:"🎒", title:"Backpacks", description:"Wholesale backpacks and daily bags."},
+            {icon:"💼", title:"Business Bags", description:"Professional and business bags."},
+            {icon:"🧳", title:"Travel Bags", description:"Travel and luggage collections."}
         ]
     },
 
     trousers: {
         title: "Trouser Collection",
-        description: "Explore our junior and adult trouser collections.",
+        description: "Choose a trouser collection to view the products posted in that category.",
         items: [
-            {
-                icon: "👖",
-                title: "Junior Collection",
-                description: "Wholesale trousers for junior customers."
-            },
-            {
-                icon: "👖",
-                title: "Adult Collection",
-                description: "Wholesale trousers for adult customers."
-            }
+            {icon:"👖", title:"Junior", description:"Trouser collection for juniors."},
+            {icon:"👖", title:"Adult", description:"Trouser collection for adults."}
         ]
     }
-
 };
 
+
+/* =========================
+   SUPABASE POSTS
+========================= */
+
+const SUPABASE_URL = "https://cgclqejzzlrxkuksqgav.supabase.co";
+const SUPABASE_KEY = "sb_publishable_BI34HY1C7-HR9ZzDrXuabQ_QtTRwbBx";
+
+
+function escapeHtml(value){
+    return String(value ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+}
+
+
+async function loadProductsByCategory(categoryName){
+
+    const postGrid = document.getElementById("postGrid");
+    const subcategoryTitle = document.getElementById("subcategoryTitle");
+    const subcategoryDescription = document.getElementById("subcategoryDescription");
+
+    subcategoryTitle.textContent = categoryName;
+    subcategoryDescription.textContent = "Loading products posted in this category...";
+    postGrid.innerHTML = `
+        <div class="product-message" style="grid-column:1/-1;">
+            <div class="big-icon">⏳</div>
+            <h5>Loading Products</h5>
+            <p>Please wait while we load the products from Trade.Hub.</p>
+        </div>
+    `;
+
+    document.getElementById("productBrowser").classList.add("active");
+
+    try{
+        const response = await fetch(
+            SUPABASE_URL +
+            "/rest/v1/posts?select=id,title,description,image_url,price_per_piece,minimum_quantity,category&category=eq." +
+            encodeURIComponent(categoryName) +
+            "&order=created_at.desc",
+            {
+                headers:{
+                    "apikey":SUPABASE_KEY,
+                    "Authorization":"Bearer " + SUPABASE_KEY
+                }
+            }
+        );
+
+        if(!response.ok){
+            throw new Error("Unable to load products.");
+        }
+
+        const products = await response.json();
+
+        if(!products.length){
+            subcategoryDescription.textContent = "No products have been posted in this category yet.";
+            postGrid.innerHTML = `
+                <div class="product-message" style="grid-column:1/-1;">
+                    <div class="big-icon">📦</div>
+                    <h5>No Products Yet</h5>
+                    <p>Products posted from Admin Posts under <strong>${escapeHtml(categoryName)}</strong> will appear here automatically.</p>
+                </div>
+            `;
+            return;
+        }
+
+        subcategoryDescription.textContent = products.length + " product" + (products.length === 1 ? "" : "s") + " available in this category.";
+
+        postGrid.innerHTML = products.map(function(product){
+            const image = product.image_url || "tradehub-logo.png";
+            const price = product.price_per_piece !== null && product.price_per_piece !== undefined && product.price_per_piece !== ""
+                ? "Price: " + escapeHtml(product.price_per_piece)
+                : "Contact for price";
+            const minimum = product.minimum_quantity
+                ? "Minimum quantity: " + escapeHtml(product.minimum_quantity)
+                : "";
+
+            return `
+                <div class="post-card">
+                    <img src="${escapeHtml(image)}" alt="${escapeHtml(product.title)}">
+                    <div class="post-card-body">
+                        <h5>${escapeHtml(product.title)}</h5>
+                        <p>${escapeHtml(product.description || "Wholesale product available from Trade.Hub.")}</p>
+                        <div class="post-price">${price}</div>
+                        ${minimum ? `<p>${minimum}</p>` : ""}
+                        <a class="btn btn-primary" href="product.html?id=${encodeURIComponent(product.id)}">View Product →</a>
+                    </div>
+                </div>
+            `;
+        }).join("");
+
+    }catch(error){
+        subcategoryDescription.textContent = "There was a problem loading this category.";
+        postGrid.innerHTML = `
+            <div class="product-message" style="grid-column:1/-1;">
+                <div class="big-icon">⚠️</div>
+                <h5>Could Not Load Products</h5>
+                <p>Please try again or contact Trade.Hub.</p>
+            </div>
+        `;
+    }
+}
 
 
 /* =========================
@@ -1766,152 +1764,50 @@ const categories = {
 
 function openCategory(categoryName){
 
-    const category =
-    categories[categoryName];
+    const category = categories[categoryName];
+    if(!category){ return; }
 
-    if(!category){
-        return;
-    }
+    const categoryView = document.getElementById("categoryView");
+    const categoryTitle = document.getElementById("categoryTitle");
+    const categoryDescription = document.getElementById("categoryDescription");
+    const subcategoryGrid = document.getElementById("subcategoryGrid");
+    const productBrowser = document.getElementById("productBrowser");
 
-
-    const categoryView =
-    document.getElementById("categoryView");
-
-    const categoryTitle =
-    document.getElementById("categoryTitle");
-
-    const categoryDescription =
-    document.getElementById("categoryDescription");
-
-    const subcategoryGrid =
-    document.getElementById("subcategoryGrid");
-
-    const productBrowser =
-    document.getElementById("productBrowser");
-
-
-    categoryTitle.textContent =
-    category.title;
-
-    categoryDescription.textContent =
-    category.description;
-
-
+    categoryTitle.textContent = category.title;
+    categoryDescription.textContent = category.description;
     subcategoryGrid.innerHTML = "";
-
     productBrowser.classList.remove("active");
-
+    document.getElementById("postGrid").innerHTML = "";
 
     category.items.forEach(function(item){
-
-        const card =
-        document.createElement("div");
-
-        card.className =
-        "subcategory-card";
-
-
+        const card = document.createElement("div");
+        card.className = "subcategory-card";
         card.innerHTML = `
-
-            <div class="subcategory-icon">
-                ${item.icon}
-            </div>
-
-            <h4>
-                ${item.title}
-            </h4>
-
-            <p>
-                ${item.description}
-            </p>
-
+            <div class="subcategory-icon">${item.icon}</div>
+            <h4>${item.title}</h4>
+            <p>${item.description}</p>
         `;
-
-
-        card.onclick = function(){
-
-            openSubcategory(item.title);
-
-        };
-
-
+        card.onclick = function(){ loadProductsByCategory(item.title); };
         subcategoryGrid.appendChild(card);
-
     });
-
 
     categoryView.classList.add("active");
 
-
     setTimeout(function(){
-
-        categoryView.scrollIntoView({
-            behavior:"smooth",
-            block:"start"
-        });
-
+        categoryView.scrollIntoView({behavior:"smooth",block:"start"});
     },100);
-
 }
 
 
-
 /* =========================
-   OPEN SUBCATEGORY
-========================= */
-
-function openSubcategory(name){
-
-    const productBrowser =
-    document.getElementById("productBrowser");
-
-    const subcategoryTitle =
-    document.getElementById("subcategoryTitle");
-
-
-    subcategoryTitle.textContent =
-    name;
-
-
-    productBrowser.classList.add("active");
-
-
-    setTimeout(function(){
-
-        productBrowser.scrollIntoView({
-            behavior:"smooth",
-            block:"center"
-        });
-
-    },100);
-
-}
-
-
-
-/* =========================
-   BACK TO CATEGORIES
+   BACK TO MAIN CATEGORIES
 ========================= */
 
 function backToCategories(){
-
-    const categoryView =
-    document.getElementById("categoryView");
-
-
+    const categoryView = document.getElementById("categoryView");
     categoryView.classList.remove("active");
-
-
-    document
-    .getElementById("products")
-    .scrollIntoView({
-        behavior:"smooth",
-        block:"start"
-    });
-
+    document.getElementById("products").scrollIntoView({behavior:"smooth",block:"start"});
 }
-
-
 
 /* =========================
    CLOSE MOBILE MENU
@@ -2059,6 +1955,3 @@ if ("IntersectionObserver" in window) {
 </body>
 
 </html>
-
-
-
